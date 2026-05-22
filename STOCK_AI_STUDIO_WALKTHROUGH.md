@@ -14,181 +14,242 @@ Adobe Stock has 300M+ licensed assets. The inventory problem is solved.
 
 The remaining problem is in two parts:
 
-1. **Discovery gap** — customers cannot translate a creative brief into the right asset. Keyword search returns technically accurate results that are creatively wrong. Natural language intent is lost at the query layer.
+1. **Discovery gap** — customers cannot translate a creative brief into the right asset. Keyword search returns 664,000+ results with no aesthetic filtering. The tools that exist to help customers find what they want are surfaced too late — after the user has already decided to leave.
 
-2. **Customization gap** — customers find an asset they want but cannot use it without 30–45 minutes of manual editing in Photoshop. The tools to fix this (Change Color, Remove Background, Generative Fill) exist inside AI Studio but are invisible at the moment of purchase friction.
+2. **Customization gap** — the AI Studio editing tools (Change color, Change mood, Change background, Animate, Expand) are on the asset detail page. But the customer's exit decision happens earlier — on the search grid, when they hover a thumbnail and decide it is not worth clicking through.
 
-> **The opportunity:** AI Studio is not missing capabilities. It is missing workflow integration — each tool lives at a separate destination instead of appearing at the moment the customer needs it.
+> **⭐ The core insight:** Adobe Stock already has the right capabilities. Change color, change mood, animate, find similar, similar videos — all exist. The gap is **when** they appear. The customer makes the keep-or-skip decision on the grid. That is where AI Studio needs to be.
 
 ---
 
-## 2. Goals
+## 2. Current Product Audit
+
+*Grounded in direct product observation across two views.*
+
+### View 1 — Search results grid
+
+**Query tested:** "confident woman entrepreneur"
+**Results:** 664,244 images
+
+| What exists | Where | Gap |
+|---|---|---|
+| Find Similar | Left panel + right-click menu | Not visible on hover — buried interaction |
+| AI badge | On Firefly-generated result cards | Not actionable — no click behavior |
+| Suggestion chips | Below search bar | Keyword synonyms only, not aesthetic directions |
+| Standard Content filter | Active by default | No aesthetic register filter (warm, editorial, candid) |
+
+**The abandonment moment is here — on the grid.** A user who does not click through to the detail page never sees a single AI Studio capability.
+
+---
+
+### View 2 — Asset detail page (AI-generated image #1485022142)
+
+**What already exists and works:**
+
+| Feature | Location | What it does |
+|---|---|---|
+| **Edit in AI Studio** | Action bar below image | Primary entry point to AI Studio |
+| **Type to edit** | Action bar | Natural language editing instruction |
+| **Change background** | Action bar | AI background replacement |
+| **Expand** | Action bar | Generative canvas expansion |
+| **Change mood** | `...` overflow menu | Adjusts overall tonal/lighting feel |
+| **Change color** | `...` overflow menu | Object-specific color replacement |
+| **Animate image** | `...` overflow menu | Generates motion from a still |
+| **More from this series** | Below image | Related assets from same creator/shoot |
+| **Similar in Videos** | Below image | Cross-media: video equivalents of this image |
+| **Similar Keywords** | Below Similar in Videos | 25-tag keyword cloud |
+
+**What is missing on the detail page:**
+
+| Gap | Impact |
+|---|---|
+| No "Find similar licensed assets" from an AI-generated image | The highest-leverage cross-Adobe workflow does not exist |
+| Similar Keywords is a generic tag cloud | 25 labels with no aesthetic signal — "woman, business, leadership, diversity" — these do not help the customer find a different creative direction |
+| "More from this series" shows the same scene | Not variation — repetition. Customers need different directions, not more of the same composition |
+| Change mood / Change color buried in `...` | Two of the highest-value AI actions are hidden in an overflow menu most users will never open |
+
+---
+
+## 3. Goals
 
 | Goal | Metric | Target |
 |---|---|---|
-| Increase discovery quality | Search-to-license conversion rate (semantic queries) | 2× keyword baseline |
-| Recover abandoned purchase intent | Abandoned session → license conversion | ≥ 30% of dwell ≥ 8s cohort |
-| Connect Firefly generation to Stock licensing | Firefly session → Stock license rate | 3× cold-search baseline |
-| Reduce post-download editing time | Asset Adoption Rate (used in campaign without Photoshop edit) | +25% in 6 months |
+| Surface AI Studio at the grid abandonment moment | AI Studio activation from grid (not detail page) | Baseline → 25% of sessions |
+| Replace keyword chips with aesthetic direction clusters | Chip click → license rate | 2× keyword chip baseline |
+| Connect Firefly-generated results to licensed Stock assets | AI badge → Stock license rate | Measured vs. no-action baseline |
+| Reduce "Similar Keywords" to actionable aesthetic filters | Time-to-shortlist per session | −40% |
+| Reduce post-download editing time | Asset Adoption Rate | +25% in 6 months |
 
 ### North Star Metric: Asset Adoption Rate
 
 > ⭐ Downloads measure what was **available**. Adoption measures whether the workflow actually **worked**.
 
-A customer who downloads an asset and immediately opens Photoshop for 45 minutes of manual editing is a failed discovery. A customer who downloads and routes straight to their campaign manager is a successful one. Adoption Rate is the only metric that captures the difference.
+Asset Adoption Rate = assets used directly in a campaign without post-download Photoshop editing. This is the metric that captures whether AI Studio is genuinely reducing the customization gap — not whether customers clicked more buttons.
 
 ---
 
-## 3. Customer Segments
+## 4. Customer Segments
 
 ### Segment A — Enterprise Brand Team *(Highest value)*
-Fortune 500 in-house agencies and brand managers. License hundreds of assets per month for global campaigns. Have a brand guide — specific colors, visual register, composition rules. Their problem: Stock returns results that are technically correct and creatively wrong. They spend more time searching than creating.
+Fortune 500 in-house agencies. License hundreds of assets monthly for global campaigns. Have a brand guide — specific colors, tonal register, composition rules. **Problem:** 664,244 results for a specific query. No way to filter by the aesthetic properties that determine usability. They click into an asset, see it is wrong, go back, repeat. The AI Studio tools that could help are on the detail page — they never get there.
 
 ### Segment B — In-House Creative *(Volume user)*
-Designers at agencies and mid-size companies. On a deadline. They find an asset that is compositionally perfect but the wrong color, or the background doesn't work. They leave Stock, edit in Photoshop for 30–45 minutes, and return. Every edit is a detour that reduces likelihood of repeat purchase.
+Agency designers on deadline. Find a compositionally perfect asset in the wrong color. Do not know Change color and Change mood exist — both are in the `...` overflow menu on the detail page. Leave Stock, edit in Photoshop for 30–45 minutes. Return for the next asset. **Problem:** The two most valuable AI actions for this user are hidden in a menu they will never open.
 
 ### Segment C — SMB Marketer / Content Creator *(Growth segment)*
-No dedicated designer. Needs something professional and on-brand in 10 minutes. Does not know the right keywords — describes what they want in natural language. Gets results that look like a generic catalog from 2015.
+No dedicated designer. Describes what they want in natural language. Gets 25 generic keyword tags ("woman, business, leadership, diversity") as the "similar" suggestion. **Problem:** Similar Keywords is a label cloud, not a creative direction. It sends the user deeper into the same aesthetic dead end.
 
 ---
 
-## 4. Pain Points
+## 5. Pain Points
 
-### Pain Point 1 — Keyword search does not understand creative intent
+### Pain Point 1 — AI Studio actions appear after the customer has already decided to leave
 
-**Behavior:** User types *"confident woman entrepreneur warm editorial coffee shop natural light."* Stock parses nouns. Returns 3,000 technically accurate, creatively wrong results. Creative director rejects the batch.
+**What the product does today:**
+The full AI Studio capability — Edit in AI Studio, Type to edit, Change background, Expand, Change mood, Change color, Animate — is on the asset detail page. To reach it, a user must click through from the grid, which requires deciding the asset is worth investigating.
 
-**Root cause:** The current search embedding is trained on object-label pairs, not on aesthetic register — editorial vs. commercial, candid vs. staged, warm vs. clinical. These properties determine creative fit but do not survive keyword search.
+The customer's actual decision point is the grid thumbnail. If the thumbnail does not look right — wrong color, wrong background, wrong mood — the customer does not click. They never see the AI Studio action bar.
 
-> **⭐ Key insight:** The training signal that closes this gap already exists in our data. **Dwell + license pairs** — users who viewed an asset for ≥ 8 seconds before purchasing — encode "this felt right" in a way that download-only data cannot. We are not capturing this behavioral signal today.
+> **⭐ Key insight:** The user who would benefit most from Change color is the one who did not click through. They saw a thumbnail with the wrong color and skipped it. We are showing the tool to users who already decided the asset was interesting — and hiding it from users who needed it to make that decision.
 
-**Impact:** Every session where a user searches, browses 5+ minutes, and exits without licensing is a lost transaction. On a 300M-asset catalog, search quality is the product.
-
----
-
-### Pain Point 2 — Change Color tool is invisible at the moment it matters
-
-**Behavior:** Customer finds a hero image — perfect composition, wrong color for their brand. Does not know the Change Color tool exists at `stock.adobe.com/ai-studio/images/change-color`. Downloads the asset, opens Photoshop, masks and recolors manually. 45 minutes for a decision that should take 30 seconds.
-
-**Root cause:** AI Studio tools are destinations, not capabilities. They require intentional navigation rather than appearing at the moment of purchase friction.
-
-> **⭐ Key insight:** The fix is a **placement decision, not an engineering project.** When a user dwells on an asset for ≥ 8 seconds without adding to cart, surface one line inline: *"Wrong color for your brand? Change it with AI."* No new model work. No backend changes. Frontend event trigger + one UI component. This is a 60-day revenue recovery on intent that already exists.
-
-**The "almost bought" cohort:** Users who dwell ≥ 8s + do not add to cart are the highest-intent non-purchasers in the funnel. This cohort is identifiable today from existing session data and represents direct recoverable revenue.
+**The fix:** Bring three AI actions to the grid hover state — **Change color**, **Change mood**, and **Change background**. These are the three actions that answer "this is almost right but not quite" — which is the thought that happens on the grid, not on the detail page.
 
 ---
 
-### Pain Point 3 — Firefly generation and Stock licensing are disconnected
+### Pain Point 2 — Change mood and Change color are in the overflow menu
 
-**Behavior:** Designer generates an image in Firefly that captures exactly the right look for a campaign. For paid media placement — which requires IP indemnification — they need a licensed Stock asset. Today: start a completely new Stock search from scratch. The creative intent encoded in the Firefly output is lost.
+**What the product does today:**
+The `...` overflow menu on the detail page contains Change mood, Change color, and Animate image. The primary action bar shows Edit in AI Studio, Type to edit, Change background, and Expand.
 
-> **⭐ Key insight:** No competitor can build this connection. Midjourney has generation but no licensed library. Getty has a library but no generation. **Only Adobe has both — and right now they do not talk to each other.** "Find Similar in Stock" is a structural moat, not a feature.
+**The prioritization problem:** Change color and Change mood are more immediately useful to more customers than Expand. A customer who needs to match their brand palette uses Change color on almost every licensed asset. A customer who needs to shift a corporate-looking photo to editorial uses Change mood. Both are in the menu most users never open.
 
-**The conversion case:** A user arriving at Stock from a Firefly generation has already made the creative decision — they just need the licensed version. This is the highest-intent Stock customer Adobe has. Hypothesis: conversion from this flow is **3× cold-search baseline** because the creative decision is already made.
-
-**Cross-team dependency:** Firefly (visual embedding export) + Stock engineering (similarity search). PM role: define the embedding contract, let each team own implementation.
-
----
-
-### Pain Point 4 — Campaign teams cannot find variation sets
-
-**Behavior:** A digital campaign team needs 5 visual directions for A/B testing a hero image. Each direction requires a separate search, separate filtering, separate evaluation session. One hour of search work before a single creative decision is made.
-
-> **⭐ Key insight:** This is the same architecture problem solved in StoryForge — a multi-agent variation engine: one input → 10 strategically differentiated outputs. Variation breadth requires a fundamentally different architecture than ranked search results: **one brief → clustered directions**, not 50 variations of the same composition.
+> **⭐ Key insight:** Move Change color and Change mood into the primary action bar. Demote Expand to the overflow. This is a 1-day product decision that increases the discoverability of the two highest-value AI actions for the in-house creative segment without any engineering work.
 
 ---
 
-### Pain Point 5 — Video b-roll search is keyword-trapped
+### Pain Point 3 — Similar Keywords is a missed aesthetic direction opportunity
 
-**Behavior:** Video editor needs *"confident woman working, warm natural light, shallow depth of field, editorial pacing, 10–15 seconds."* Types exactly that. Gets generic results. Spends 40 minutes browsing.
+**What the product does today:**
+Below "Similar in Videos," the detail page shows a 25-tag keyword cloud: woman, business, leadership, diversity, team, black woman, conference, meeting, empowerment, professional, collaboration, success, african american, communication, equality, corporate...
 
-**Root cause:** Video requires temporal understanding — motion quality, pacing, depth-of-field change over time. These properties do not survive keyword search or standard visual embeddings.
+These are object and subject labels. They describe what is in the image. They do not describe how it feels.
 
-> **⭐ Key insight:** Video time-to-license is estimated 3–4× longer than image today. Closing that gap is a direct margin improvement on the highest-value subscription tier. The dimensional framework for this — motion smoothness, subject consistency, temporal coherence — is the same framework used in Firefly video evaluation (VBench). A PM who understands both can coordinate the research across teams without duplicating effort.
+> **⭐ Key insight:** Replace the Similar Keywords section with **Aesthetic Direction chips**: "Warm & editorial · Corporate & clean · Candid & authentic · Diverse & dynamic." Each chip filters Stock results by tonal register rather than by object label. A customer who is on a detail page for one image and thinks "this is close but I want something warmer" can click "Warm & editorial" and get results that match that feel — not results that contain the same keywords.
 
----
-
-## 5. Current AI Studio Feature Map
-
-| Feature | Works well | The gap |
-|---|---|---|
-| **Text to Image** | Creative exploration, concept mockups | No path to licensed Stock assets matching the result |
-| **Generate Similar** | Compositional matches | Misses aesthetic register — returns objects, not feel |
-| **Remove Background** | Product photography cut-outs | Separate destination, not surfaced in search flow |
-| **Change Color** | Brand color matching, lighting-aware recolor | Separate URL — invisible at purchase abandonment point |
-| **Generative Fill / Expand** | Layout adaptation, format resizing | Not connected to brand style — every fill starts from scratch |
-
-> **Pattern across all five:** The models work. The gap is always the same — tools are destinations instead of capabilities that appear when the customer needs them.
+**This is the highest-leverage, lowest-cost improvement on the detail page.** It requires reframing what the chips represent, not rebuilding the search model.
 
 ---
 
-## 6. Proposed Solutions
+### Pain Point 4 — "More from this series" shows repetition, not variation
 
-### Solution 1 — Inline Change Color at abandonment *(Tier 1 · 60 days)*
+**What the product does today:**
+The "More from this series" strip shows 6+ images from the same creator session. For the image shown — a conference room group shot — the series strip shows more conference room group shots with the same subjects in slightly different poses.
 
-**Trigger:** User dwells ≥ 8s on asset + does not add to cart.
-**Action:** Surface inline: *"Wrong color for your brand? Change it with AI — free preview."*
-**Cost:** Frontend event tracking + one UI component. Zero model work. Zero backend changes.
-**Metric:** Abandoned session → license conversion. Target: ≥ 30% of the ≥ 8s non-purchaser cohort.
+**The creative need:** When a customer is evaluating an asset, they are not looking for more of the same scene. They are looking for a different direction — same concept, different aesthetic approach.
 
----
-
-### Solution 2 — AI Studio shortcuts on search result cards *(Tier 1 · 60 days)*
-
-**What:** "Edit with AI Studio" action on every search result card — surfaces Remove Background, Change Color, Generate Similar directly from results.
-**Cost:** Frontend addition only.
-**Metric:** AI Studio activation rate per search session. Target: +25%.
+> **⭐ Key insight:** Rename and reframe this section. "More from this series" → **"Different directions on this concept."** The strip should show 5 images that are *conceptually* related but *aesthetically* different: one warm and candid, one corporate and clean, one action-forward, one portrait-focused, one environmental. This is the variation breadth problem solved at the detail page level — no new model needed if we use clustering on the existing Find Similar index.
 
 ---
 
-### Solution 3 — Firefly → "Find Similar in Stock" bridge *(Tier 2 · 90 days)*
+### Pain Point 5 — AI-generated results are not actionable from the search grid
 
-**What:** After any Firefly generation, a Stock similarity panel returns 8–12 licensed assets matching the generated image's visual embedding.
-**Cross-team:** Firefly exports a visual embedding per generation. Stock search queries against it.
-**Metric:** Firefly session → Stock license rate. Target: 3× cold-search baseline.
+**What the product does today:**
+Firefly-generated images appear in search results with an AI badge. On the detail page, there is no action to generate a variation or find a licensed equivalent. On the grid, the badge is present but has no click behavior.
 
-> ⭐ **This is the only feature in the AI image generation market that no competitor can replicate.** It requires owning both the generation model and the licensed library simultaneously.
-
----
-
-### Solution 4 — Campaign variation set *(Tier 2 · 90 days)*
-
-**What:** One prompt → 5 conceptually distinct visual directions, each with 3–5 representative assets.
-**Metric:** Assets viewed per session, downstream A/B test launch rate for enterprise users.
+> **⭐ Key insight:** The AI badge is the right surface — it marks an asset the customer is already looking at in discovery mode. Two actions should be available from the badge: "Generate a variation" (opens Firefly with the same prompt and style seed) and "Find licensed similar" (runs a Stock similarity search against the generated image's embedding). The second action is the structural moat — no competitor can build it because no competitor owns both Firefly and a licensed asset library.
 
 ---
 
-### Solution 5 — Semantic search on dwell + license signal *(Tier 3 · 6 months)*
+### Pain Point 6 — Video search is keyword-trapped
 
-**What:** Fine-tune the Stock search embedding on dwell + license behavioral pairs. Captures aesthetic register, not just object labels.
-**Metric:** Search-to-license conversion, natural language queries. Target: 2× keyword baseline.
+**What exists:** "Similar in Videos" on the detail page surfaces video equivalents of the current image — already built and surfaced.
+
+**What is missing:** The reverse path — searching *for* video directly with natural language that captures temporal properties. Motion quality, pacing, lighting consistency across frames — these do not survive keyword search.
+
+> **⭐ Key insight:** "Similar in Videos" from an image reference is a strong signal about what the customer actually wants. This interaction — image as query for video — should become a primary video discovery mode, not a secondary strip on an image detail page. If a customer finds the right image aesthetic, let them search video using that image as the query.
 
 ---
 
-### Solution 6 — Video temporal semantic search *(Tier 3 · 6 months)*
+## 6. Solution Map
 
-**What:** Video-native embeddings encoding motion quality, pacing, depth of field, subject consistency.
-**Metric:** Video time-to-license. Target: reduce from 4× image baseline to 1.5× image baseline.
+### Tier 1 — No model work · Ship in 45–60 days
+
+**S1: Bring AI actions to the grid hover state**
+Add Change color, Change mood, Change background as hover actions on grid thumbnails alongside the existing heart/download icons.
+- **Cost:** Frontend only. The tools already exist — this is placement.
+- **Metric:** AI Studio activation from grid view. Baseline → target 25% of sessions.
+
+**S2: Promote Change color + Change mood to the primary action bar**
+Swap Expand into the `...` overflow. Move Change color and Change mood into the visible action bar.
+- **Cost:** 1-day product decision. No engineering.
+- **Metric:** Change color + Change mood usage rate.
+
+**S3: Replace Similar Keywords with Aesthetic Direction chips**
+"Warm & editorial · Corporate & clean · Candid & authentic · Diverse & dynamic"
+Each chip reranks search results by tonal register, not by swapping keywords.
+- **Cost:** Frontend chip reframe + dwell-based reranking signal. No new model.
+- **Metric:** Chip click → license rate vs. current keyword chip baseline. Target: 2×.
+
+**S4: Rename "More from this series" → "Different directions on this concept"**
+Reframe the strip to show aesthetically distinct takes on the same subject, not more of the same scene.
+- **Cost:** Clustering logic on existing Find Similar index. No new model.
+- **Metric:** Strip asset → license rate.
+
+---
+
+### Tier 2 — Cross-team · Ship in 90 days
+
+**S5: Make AI badge actionable — Generate variation + Find licensed similar**
+Two actions on every AI-badged result: generate a variation in Firefly, or find the licensed Stock equivalent.
+- **Cost:** Firefly integration (variation) + visual embedding query on Stock index (licensed similar).
+- **Metric:** AI badge → Stock license rate.
+
+> ⭐ "Find licensed similar" from a Firefly-generated image is the only workflow in the AI image generation market that no competitor can replicate.
+
+**S6: Image-as-query for video search**
+Promote "Similar in Videos" from a detail page strip to a primary video search mode: upload or select an image → Stock returns video results that match its tonal and compositional qualities.
+- **Cost:** Image embedding → video similarity query. Firefly + Stock video index integration.
+- **Metric:** Image-referenced video search → video license rate.
+
+---
+
+### Tier 3 — Model-dependent · Ship in 6 months
+
+**S7: Semantic search retrained on dwell + license signal**
+Fine-tune the search embedding on behavioral pairs — dwell ≥ 8s then license — to capture aesthetic fit, not just object labels.
+- **Metric:** Natural language search → license conversion. Target: 2× keyword baseline.
+
+**S8: Aesthetic Find Similar**
+Add tonal register, lighting quality, and shooting style as similarity dimensions — independent of subject.
+- **Metric:** Find Similar → license rate. Target: 2× current.
+
+**S9: Video temporal semantic search**
+Video-native embeddings encoding motion quality, pacing, depth of field.
+- **Metric:** Video time-to-license. Target: ≤ 1.5× image baseline.
 
 ---
 
 ## 7. Roadmap
 
 ```
-60 DAYS                    90 DAYS                    6 MONTHS
-──────────────────         ─────────────────          ──────────────────────
-Tier 1 · No model work     Tier 2 · Cross-team        Tier 3 · Model-dependent
-──────────────────         ─────────────────          ──────────────────────
-Inline Color Change    →   Firefly → Stock        →   Semantic search retrain
-at abandonment moment      bridge (Find Similar)       (dwell + license signal)
+45–60 DAYS                  90 DAYS                     6 MONTHS
+─────────────────────       ─────────────────────       ──────────────────────
+Tier 1 · No model work      Tier 2 · Cross-team         Tier 3 · Model work
+─────────────────────       ─────────────────────       ──────────────────────
+AI actions on grid      →   AI badge actionable     →   Semantic search retrain
+hover state                 (Generate + Find licensed)   (dwell + license signal)
 
-AI Studio shortcuts    →   Campaign variation     →   Video temporal embeddings
-on search result cards     set (1 brief → 5 dir)
-                                                       Batch brand transformation
-                                                       (enterprise)
+Change color + mood     →   Image-as-query          →   Aesthetic Find Similar
+to primary action bar       for video search
+                                                         Video temporal search
+Aesthetic Direction
+chips (replace keyword
+tags on detail page)
+
+"Different directions"
+strip (replace "More
+from this series")
 ```
-
-**Why Tier 1 first:** Maximum revenue impact, minimum engineering cost. The "almost bought" cohort is identifiable today. Intervention requires no new AI infrastructure. Results measurable within 2 weeks of shipping.
 
 ---
 
@@ -197,32 +258,35 @@ on search result cards     set (1 brief → 5 dir)
 | Metric | Definition | Target | Signals |
 |---|---|---|---|
 | **Asset Adoption Rate** *(north star)* | Assets used in campaign without post-download editing | +25% in 6 months | Workflow success |
-| Abandoned session conversion | Dwell ≥ 8s + no cart → license after prompt | ≥ 30% | Revenue recovery |
+| AI Studio grid activation | AI Studio used from grid hover (not detail page) | 25% of sessions | Placement fix impact |
+| Aesthetic chip → license | Clicks on direction chip → license | 2× keyword chip baseline | Direction > label |
+| AI badge → license | AI badge click action → Stock license | vs. no-action baseline | Cross-Adobe bridge |
+| Change color/mood usage | Actions used per session | 3× post-promotion baseline | Action bar fix impact |
 | Semantic query conversion | Natural language search → license | 2× keyword baseline | Search quality |
-| Firefly → Stock conversion | Firefly session → Stock license | 3× cold-search | Cross-Adobe bridge value |
 | Video time-to-license | Search → first video license | ≤ 1.5× image baseline | Video parity |
-| AI Studio activation per session | Users interacting with ≥ 1 AI tool | 25% → 50% | Discoverability |
 
 ---
 
 ## 9. Dependencies & Risks
 
-| Dependency | Owner | Risk if unresolved |
+| Dependency | Owner | Risk |
 |---|---|---|
-| Visual embedding export from Firefly | Firefly engineering | Solution 3 blocked |
-| Dwell + license behavioral signal | Data / Analytics | Solutions 1 and 5 blocked |
-| Batch processing pipeline | Stock engineering | Enterprise batch transformation blocked |
-| Custom Models API integration | Firefly platform | Brand style in batch workflow blocked |
+| Dwell + license event tracking | Analytics | Reranking signal and semantic retrain blocked |
+| Firefly visual embedding per generation | Firefly engineering | S5 "Find licensed similar" blocked |
+| Video embedding model | Research | S9 blocked |
+| Find Similar clustering logic | Stock ML | S4 "Different directions" strip blocked |
 
-**Primary risk:** Optimizing for search engagement instead of campaign adoption. Engagement metrics can rise while the customer still edits in Photoshop for 45 minutes after every download. Mitigation: track Asset Adoption Rate as a downstream check on every engagement metric.
+**Primary risk:** Engagement metrics rise while Adoption Rate stagnates. A customer who clicks more chips and views more detail pages but still opens Photoshop for 45 minutes has not been helped. Mitigation: Adoption Rate reviewed in every sprint alongside engagement metrics. Divergence = engagement wins are not real wins.
 
 ---
 
-## 10. Open Questions for Discovery
+## 10. Open Questions
 
-1. What does current dwell data look like for the "almost bought" cohort — do we have event tracking on dwell ≥ 8s + no add-to-cart today?
-2. How is the Firefly / Stock engineering relationship structured — shared embedding infrastructure, or greenfield dependency?
-3. Does the team have a north star metric for AI Studio today, or is metric definition an open question for the incoming PM?
+1. **Dwell data:** Do we track dwell ≥ 8s + no add-to-cart on grid thumbnails today? This signal drives three solutions.
+2. **Find Similar model:** Is the current similarity embedding aesthetic-aware at any dimension, or purely compositional?
+3. **Firefly embedding access:** Is there an existing API to retrieve a visual embedding per Firefly generation, or is this greenfield?
+4. **Action bar prioritization:** What drove the decision to put Change background in the primary bar and Change color/mood in overflow? Is there usage data that supports this hierarchy?
+5. **North star:** Does the team track Asset Adoption Rate today, or is this open for the incoming PM to define?
 
 ---
 
