@@ -184,12 +184,66 @@ Total time: under 5 minutes. No T&Cs. No re-downloads. No legal review.
 
 ---
 
+### The Enabling Layer — Content Trust Agent (Fixing the AI filter at the source)
+
+The three agentic layers above only work if buyers trust what they're getting. The verified buyer churn signal — *"planning to replace Adobe Stock with a competitor in 2026"* because the AI filter doesn't work — is a catalog integrity problem, not a UI problem.
+
+**Root cause:** The current AI badge relies on contributor self-declaration. Submitters who mislabel AI content as human photography go undetected until a buyer downloads and notices. The filter is only as reliable as the least honest contributor.
+
+**How Google and Meta solved this — without relying on self-declaration:**
+
+| | Google | Meta | Adobe (current) | Adobe (should be) |
+|---|---|---|---|---|
+| **Detection method** | SynthID watermark embedded at generation + C2PA manifest reading | C2PA/IPTC Digital Source Type read at upload | Submitter self-declaration only | C2PA manifest reading + SynthID detection at intake |
+| **Bypasses mislabeling?** | Yes — watermark survives cropping, filtering, compression | Yes — metadata read regardless of what submitter says | No — mislabeled AI passes through | Yes |
+| **Adobe's advantage** | — | — | Adobe co-founded C2PA; every Firefly output already carries a Content Credential | Only Adobe has C2PA-native infrastructure across generation (Firefly) + platform (Stock) + tools (Photoshop, Express) |
+
+*Sources: [Google C2PA blog](https://blog.google/technology/ai/google-gen-ai-content-transparency-c2pa/) · [SynthID Detector](https://blog.google/innovation-and-ai/products/google-synthid-ai-content-detector/) · [Meta AI labeling policy](https://about.fb.com/news/2024/04/metas-approach-to-labeling-ai-generated-content-and-manipulated-media/) · [C2PA v2.2, May 2025](https://contentcredentials.org/)*
+
+**The Content Trust Agent — what it does:**
+
+```
+Submission intake:
+  ↓
+Read C2PA manifest (if present)
+→ logs: generation model, timestamp, source tool
+  ↓
+Run SynthID detection (Google's public API)
+→ confidence score: 0–100
+  ↓
+Cross-reference IPTC Digital Source Type
+→ secondary signal
+  ↓
+If confidence > threshold → tag as AI-generated
+regardless of submitter declaration
+  ↓
+Buyer-facing badge upgrades:
+  "✓ Verified human photography"
+  "⚠ AI-generated (detected via C2PA)"
+  "○ Unverified — provenance unknown"
+```
+
+**What this fixes directly:**
+
+> *"The filter does not work — many images that are clearly AI-generated get through."* — JCS26847212jtmf, April 2026
+
+> *"Even with the filter, I still mostly get AI-generated illustrations/vectors."* — CRISTINA247492529w6i, March 2026
+
+When the AI badge is a **verified provenance signal** (not a self-declaration), the "Exclude AI" filter becomes reliable for the first time. Buyers who want human photography get human photography. The trust gap closes.
+
+**Why only Adobe can build this end-to-end:** Adobe co-founded C2PA in 2021. Adobe Photoshop, Firefly, and Express already embed Content Credentials on every output. The infrastructure exists — it is not being used at the Stock intake pipeline. Connecting it is an engineering project, not a research project.
+
+**Metric:** AI filter precision — % of "Exclude AI" results that are confirmed human photography vs. current baseline. Target: ≥ 95% filter precision within 6 months of Content Trust Agent launch.
+
+---
+
 ## Solution Tiers
 
 **Tier 1 (45–60 days, no model work)**:
 - Bring Change color, Change mood, Change background to grid hover — primary position, not overflow
 - Replace keyword tags with aesthetic direction chips (*"Warm & editorial," "Corporate & clean"*)
 - Reframe "More from this series" to show conceptually related but visually distinct assets
+- **Content Trust Agent (Phase 1):** Read C2PA manifest + SynthID detection at intake — tag AI-generated content regardless of submitter declaration. Upgrades AI badge from passive label to verified provenance signal. Directly addresses buyer AI filter churn.
 
 **Tier 2 (90 days, cross-team)**:
 - Make AI badge actionable: generate variations or find licensed equivalents from Firefly output
