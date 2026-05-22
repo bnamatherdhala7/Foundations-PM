@@ -293,28 +293,7 @@ The 368-point ELO gap to GPT Image 2 is not a single problem — it is three sep
 
 ---
 
-## 7. Where GenAI Is Going — Future Trajectory
-
-The ability to hold a view on where generative AI is heading in 12–24 months is a core competency for a Foundations PM. My read:
-
-**Shift 1 — From single-asset generation to multi-asset coherence.**
-Users no longer want one good image. They want a campaign set, a style-consistent video series, a brand-locked asset library. The quality eval moves from "is this image good?" to "does this set belong together?" — which is exactly the pixel math consistency layer.
-
-**Shift 2 — Real-time generation enters the creative workflow.**
-Runway's real-time video, Adobe's own Project Res Up — generation latency is approaching the threshold where it becomes interactive. The PM implication: eval frameworks need to measure quality-at-latency, not just quality. A 90th-percentile quality score at 500ms latency is different from the same score at 8 seconds.
-
-**Shift 3 — Agentic creation replaces prompt engineering.**
-Users will stop writing prompts. They will describe what they want in the language of a creative brief — "Q3 campaign, female founder, NYC, clean tech" — and an orchestration layer will translate that into generation parameters, style seeds, and brand constraints. Firefly's role shifts from a generator to an agent that manages a generation workflow. The eval challenge: measuring whether an agentic output served the brief, not just whether the image is high quality.
-
-**Shift 4 — Personalization at scale.**
-LoRA-per-user or LoRA-per-brand becomes table stakes. The infrastructure that today handles Adobe's enterprise Custom Models will need to scale to millions of lightweight personal style profiles. The PM implication: quality of the personalization layer becomes a first-class metric alongside generation quality.
-
-**Shift 5 — Provenance and authenticity become competitive.**
-The Getty-Shutterstock merger, Midjourney's litigation, C2PA's adoption by Google and Meta — the market is moving toward verified AI provenance as a purchasing criterion. Adobe co-founded C2PA. This is a strategic asset that is not being used at platform scale.
-
----
-
-## 8. Evidence: What I've Built
+## 7. Evidence: What I've Built
 
 ### Stil — Feed Cohesion Score
 **JD alignment:** Scalable evaluation frameworks, quality measurement, experience with generative imaging
@@ -348,132 +327,151 @@ Automated competitive analysis system for Firefly positioning. Runs at $0.003 pe
 
 ---
 
-## 9. Data Strategy — Improving Firefly Without Customer Data
+## 8. Data Strategy — Improving Firefly Without Customer Data
 
-Adobe's trust position is explicit: Firefly is trained only on licensed, owned, and public domain content — not customer creative work. This is the enterprise moat. It is also the hardest constraint in the data strategy. Every quality improvement has to work within it.
+Adobe's trust position is explicit: Firefly is trained only on licensed, owned, and public domain content — not customer creative work. This is the enterprise moat. It is also the hardest constraint in the data strategy.
 
-The six strategies below are how you improve a foundation model when you can't touch what users create.
+Three buckets. Every strategy for improving Firefly quality sits in one of them.
 
 ---
 
-### Strategy 1 — Adobe-Owned Assets as Primary Training Data
+### Bucket A — Adobe-Owned Assets
 
-Adobe owns one of the world's largest professionally curated image libraries. The gap is using it systematically.
+Adobe owns some of the best-quality creative data on the planet. The gap is using it systematically as a training pipeline, not just as a legal safe harbor.
 
-| Adobe Asset | Training signal | Gap today |
+| Asset | Training signal | Gap today |
 |---|---|---|
-| **Adobe Stock** (licensed for AI training with contributor opt-in) | Aesthetic quality bar, style diversity, commercial composition | Contributor consent program exists; systematic quality-tier training pipeline does not |
-| **Adobe Fonts** (full library, owned) | Typography training pairs — exact text rendering ground truth | Largest gap: text rendering <45% while Firefly owns a complete font corpus |
-| **Adobe Color** (public palettes, millions of user-validated combinations) | Color harmony signal — which palettes humans actually prefer | Underused as color coherence training signal |
-| **Behance** (public portfolios, explicit platform T&Cs) | Professional aesthetic intent — how designers compose at the quality ceiling | Not connected to Firefly training pipeline |
-| **Adobe Express templates** (owned, designed by Adobe design team) | Layout, composition, brand-safe design patterns | Adobe-designed reference set for instruction-following fine-tuning |
+| **Adobe Stock** (contributor opt-in consent) | Aesthetic quality ceiling, style diversity, commercial composition | Consent program exists; systematic quality-tier training pipeline does not |
+| **Adobe Fonts** (full library, 100% owned) | Typography training pairs — exact text rendering ground truth at every weight and size | <45% text accuracy while Adobe owns a complete, legally clean font corpus |
+| **Adobe Color** (millions of validated palettes) | Color harmony signal — which combinations humans actually rate as coherent | Underused as color training signal for generative output |
+| **Behance** (public portfolios, platform T&Cs cover training use) | Professional aesthetic intent — how designers compose at the quality ceiling | Not connected to Firefly training pipeline |
+| **Adobe Express templates** (Adobe-designed, owned) | Layout, composition, brand-safe patterns | Adobe-designed reference set for instruction-following fine-tuning |
+| **Stock contributor program (Tier 1)** | Top 1% contributors by quality score — offered revenue share for explicit AI training consent | Becomes the quality ceiling dataset; flywheel: better model → more Firefly content sold → more contributor revenue → more consent |
 
-> **Highest leverage move in this category:** Adobe Fonts → text rendering LoRA. Adobe owns a complete, legally clean corpus of every typeface and every rendering at every weight. A targeted fine-tune on typography failure pairs using this corpus closes the <45% text accuracy gap faster than any other approach — and no other model has access to this dataset. This is not a research project. It is a data pipeline project.
-
----
-
-### Strategy 2 — Synthetic Data Generation from the Foundation Model
-
-The model can generate its own training data. This is the highest-leverage bootstrap strategy and requires no external data.
-
-**How it works:**
-1. Generate 10 variations of the same prompt at different quality settings
-2. Run pairwise human preference ranking on the variation set (contracted raters, not customers)
-3. The ranked pairs become DPO (Direct Preference Optimization) training data
-4. The model learns to prefer what humans prefer — without ever seeing customer content
-
-**Specific pipelines:**
-- **Counterfactual degradation:** Take a high-quality owned Stock image. Deliberately degrade it (add noise, flatten contrast, corrupt text). Now you have a preference pair: clean → degraded. Train on the clean side as preferred. This is synthetic preference data at near-zero cost.
-- **Hard negative mining:** Use the eval stack (Layer 1 + Layer 2) to find the exact cases where Firefly underperforms. Run the model on those cases with different seeds until it produces one good output. That good/bad pair is a training signal targeting the exact failure mode.
-- **Self-critique loop:** Prompt the model to rate its own outputs on a rubric (text legibility, lighting coherence, edge quality). The outputs that fail self-critique get regenerated. Human raters validate the self-critique calibration. No customer data involved.
-
-> **The DPO insight:** You don't need more data — you need more preference signal on the data you already have. Adobe Stock contains millions of professionally rated images. Running systematic pairwise preference sessions on Stock images with internal raters produces preference training data without touching anything a customer created.
+> **Highest-leverage move:** Adobe Fonts → text rendering LoRA. A targeted fine-tune on typography failure pairs using the full font corpus closes the text accuracy gap faster than any other approach — and no competitor has access to this dataset. Not a research project. A data pipeline project.
 
 ---
 
-### Strategy 3 — Behavioral Signal as Reward (Opt-In, Aggregate)
+### Bucket B — Open Source Datasets, Open-Weight Models, and Research-Published Data
 
-Customer data is off-limits. Customer *behavior* is a different question — if collected with explicit consent, at the aggregate level, and without storing the content itself.
+This is the most underused bucket. The open research community publishes benchmark datasets, preference corpora, and model weights that are freely usable — and several are specifically designed for fine-tuning image generation models.
 
-**What is usable:**
-- **Dwell time before re-run:** If a user stares at a generation for 8+ seconds then re-runs the prompt, that is a negative signal. If they export immediately, that is a positive signal. Neither requires seeing the image content — only the timestamp.
-- **Prompt → action sequence:** Did the generation lead to an edit, a download, or a re-prompt? The sequence is a quality signal. The content is not stored.
-- **Explicit rating (opt-in):** Thumbs up/down on Firefly outputs — aggregate into preference rate per segment, per generation parameter. The content stays with the user. Only the rating leaves.
-- **Custom Models training success rate:** When a user trains a Custom Model adapter, does it converge well or require multiple iterations? Convergence signal = training asset quality signal. No content leaves Adobe's infrastructure.
+#### Human Preference Datasets (for DPO / RLHF fine-tuning)
 
-**What is not usable:** Raw image content created by users, prompt text tied to identifiable users, any content from enterprise or B2B customers (separate consent framework entirely).
+These are the most directly useful: real pairwise preference rankings on generated images, published by researchers.
 
-> **The architectural requirement:** The behavioral signal system needs a separate data pipeline that strips content before the signal reaches the training team. An events layer that emits `{session_id: hash, event: "re_run", latency_ms: 8400}` — no content, no PII, usable preference signal.
-
----
-
-### Strategy 4 — Knowledge Distillation from Specialist Models
-
-You don't have to train on customer data to learn from models that have seen more. Distillation transfers capability from a stronger teacher to a Firefly student — without Firefly ever seeing the teacher's training data.
-
-**Specific distillation targets:**
-
-| Specialist model | What to distill | Why |
+| Dataset | What it contains | Firefly application |
 |---|---|---|
-| **Ideogram 3.0** | Text rendering patterns | Best-in-class on typography; use its output distribution as soft labels for Firefly text LoRA |
-| **FLUX.1-dev** | Open-weight aesthetic quality | 12.9k HuggingFace likes — community has identified its strength vectors; distill aesthetic judgment |
-| **GPT Image 2** | Instruction following on complex edits | Leads on editing arena; use synthetic prompt-output pairs as teacher signal for editing LoRA |
-| **Gemini 2.5 Flash Image** | Speed-quality tradeoff | Best latency/quality ratio in the arena; distill to Express-tier distillation model |
+| **Pick-a-Pic v2** (HuggingFace: `yuvalkirstain/pickapic_v2`) | 851k human pairwise preferences on text-to-image generations | Direct DPO training signal — fine-tune Firefly to prefer what humans prefer |
+| **HPD v2 — Human Preference Dataset** | 798k human preference annotations on image generations | Aesthetic preference signal; combined with Pick-a-Pic for scale |
+| **ImageReward** (Xu et al., 2023) | 137k text-image pairs with human preference + text-image alignment scores | Both preference and alignment signal in one dataset |
+| **HPS v2 — Human Preference Score** | Trained on 798k preferences; released as model + dataset | Preference reward model — use as automated quality signal in Layer 1 eval |
+| **ELO-ranked arena data** (Artificial Analysis, LMSYS methodology) | Pairwise model comparison results — published leaderboard data | Benchmark anchor for Firefly's position; track movement per training run |
 
-**How distillation works without legal exposure:** Generate outputs from the teacher model using Adobe-owned prompts (Stock image descriptions, Express template briefs). The outputs are the teacher's generated images — not copyrighted training data. Firefly learns from those generated pairs. This is the same pattern used in knowledge distillation across the ML research community.
+> **Why this matters for Firefly specifically:** Pick-a-Pic v2 + HPD v2 together = 1.6M preference pairs. Running DPO on Firefly with this signal closes the aesthetic preference gap without generating a single new piece of data. These datasets were built explicitly for this purpose and are free to use.
 
-> **The legal framing:** Adobe generates synthetic prompt-image pairs using publicly accessible API models. The prompts are Adobe-authored. The outputs are new generations. No training data from those models is extracted — only the output distribution. Legal team should review per model's ToS, but this is the standard research approach.
+#### Image Quality + Aesthetic Datasets
+
+| Dataset | Size | Firefly application |
+|---|---|---|
+| **LAION-Aesthetics v2** (filtered LAION-5B, aesthetic score ≥ 6.25) | 600M pairs | General aesthetic quality baseline; curated subset used by SDXL |
+| **DataComp-1B** | 1.4B curated image-text pairs | Designed for training; better filtering than raw LAION |
+| **AVA — Aesthetic Visual Analysis** | 250k images with human aesthetic ratings 1–10 | Aesthetic score training signal |
+| **JourneyDB** | 4M Midjourney v5 outputs + structured metadata | Midjourney-quality aesthetic patterns; prompts + outputs published by researchers |
+| **OpenImages V7** (Google) | 9M images with dense annotations | Object detection, segmentation, spatial relationships — compositional accuracy |
+| **COYO-700M** (Kakao Brain) | 700M filtered image-text pairs | Scale; alternative to LAION with better caption quality |
+
+#### Text Rendering Datasets (closes the #2 priority gap)
+
+| Dataset | What it contains | Firefly application |
+|---|---|---|
+| **TextCaps** | 145k captions describing text in images | Caption-level text rendering training pairs |
+| **TextVQA** | 45k VQA pairs about text in images | Text recognition accuracy evaluation |
+| **AnyText-benchmark** | Evaluation benchmark for text generation in images | Standard regression metric for text rendering accuracy |
+| **LAION-OCR** (LAION subset) | Images containing readable text, filtered from LAION | Pre-training signal for text in scene understanding |
+| **Emu Edit research data** (Adobe Research published) | Multi-task image editing pairs | Adobe's own research — Emu Edit paper released evaluation data |
+
+#### Image Editing Datasets (closes the #1 priority gap — not in top 5 on editing arena)
+
+| Dataset | Size | Firefly application |
+|---|---|---|
+| **InstructPix2Pix** (Brooks et al., UC Berkeley) | 310k instruction-based editing pairs | Synthetic but directly useful for instruction-following fine-tuning |
+| **MagicBrush** | 10k real human-annotated editing instruction pairs | Highest quality editing pairs available — human-verified |
+| **HIVE** (Human Instruction-driven Image Editing) | Multi-modal editing benchmark | Evaluation standard for editing quality |
+| **EditBench** | 240 structured editing scenarios | Targeted regression for specific edit types |
+
+> **Emu Edit is Adobe's own research published openly.** The evaluation methodology and dataset from Adobe Research's Emu Edit paper is available. If it is not already part of Firefly's editing fine-tune pipeline, that is a gap.
+
+#### Open-Weight Models (for distillation and architecture signal)
+
+| Model | License | What to extract |
+|---|---|---|
+| **FLUX.1-schnell** (Black Forest Labs) | Apache 2.0 — commercial use allowed | Architecture patterns, fast inference approach; strongest open-weight model |
+| **FLUX.1-dev** | Non-commercial research | Use for output distillation (generate synthetic pairs with Adobe prompts); read community LoRA training research |
+| **Stable Diffusion 3.5 Large** (Stability AI) | Open weights | MMDiT architecture research; SD3.5 papers publish training methodology details |
+| **PixArt-Sigma** | Open weights | 4K resolution architecture; low-resource high-quality training approach |
+| **AuraFlow v0.3** | Open weights | Competitive quality; training methodology published |
+| **Kolors** (Kwai/Kuaishou) | Open weights | Strong aesthetic quality on non-Western styles — diversity gap signal |
+
+#### Research Papers That Publish Training Methodology (read, don't copy)
+
+High-ranked papers on HuggingFace and arXiv publish the training configurations, dataset compositions, and fine-tuning approaches that produced their quality gains. This is competitive intelligence, not IP exposure.
+
+| Paper / Model | What the methodology reveals |
+|---|---|
+| **SDXL** (Rombach et al.) | Multi-aspect ratio training, refiner model architecture, dataset filtering approach |
+| **DALL-E 3** (OpenAI technical report) | Caption recaptioning to improve prompt adherence — one of the highest-impact training improvements published |
+| **Emu / Emu Edit / Emu Video** (Adobe Research) | Adobe's own published findings on quality-focused fine-tuning |
+| **InstructPix2Pix** methodology | How to generate high-quality synthetic editing pairs from a base model |
+| **IP-Adapter** | Image prompting architecture — directly relevant to Custom Models / Style ID mechanism |
+| **DPO for image generation** (Wallace et al.) | DPO applied directly to text-to-image models — the paper that proves Pick-a-Pic works for this |
+
+> **The DALL-E 3 insight is high-leverage:** OpenAI published that recaptioning training images with detailed, accurate captions (using GPT-4V) significantly improved prompt adherence. Adobe can apply this methodology to its own Stock images using its own models. The technique is open. The data is Adobe's.
 
 ---
 
-### Strategy 5 — Community and Research LoRA Ecosystem
+### Bucket C — Synthetic Data and Behavioral Signal
 
-The open-weight FLUX ecosystem has tens of thousands of community fine-tunes. Adobe cannot use those LoRA weights directly. But Adobe can read the research signal they represent.
+When owned data runs out and open data has been used, the remaining signal comes from what the model generates and how users respond to it.
 
-**What the LoRA ecosystem tells you:**
-- Which fine-tuning approaches converge fastest on which style targets
-- Which training asset compositions (diversity, quality floor, size) produce stable brand lock
-- Which failure modes appear at the LoRA layer vs. the foundation model layer
+#### Synthetic preference pairs from the foundation model itself
 
-**How to use it without using the weights:**
-1. Analyze the training configurations of the top-performing FLUX community LoRAs (these are published openly)
-2. Replicate the training approach on Adobe-owned assets
-3. Measure whether the same approach produces comparable quality on Firefly's architecture
+- **Counterfactual degradation:** Take a high-quality Stock image. Degrade it (add noise, flatten contrast, corrupt text). That's a preference pair: clean = preferred. Near-zero cost, automated pipeline.
+- **Hard negative mining:** Run the eval stack on Firefly outputs. Find the failure cases. Re-run with different seeds until one good output appears. Good/bad pair = training signal targeting the exact failure mode.
+- **Self-critique DPO:** Use a capable VLM (GPT-4V or Claude) to rate Firefly outputs on a structured rubric. Low-rated outputs become the rejected side of DPO pairs. Human raters calibrate the VLM judge quarterly.
 
-> **This is a research-reading strategy, not a weight-copying strategy.** The goal is to extract the experimental findings from the community and reproduce them under Adobe's data constraints. FLUX community members run thousands of fine-tuning experiments for free. Reading their results is competitive intelligence, not IP exposure.
+#### Behavioral reward signal (opt-in, aggregate, content-free)
 
----
+| Signal | What it means | Data architecture |
+|---|---|---|
+| Dwell time ≥ 8s before re-run | Negative quality signal | `{event: "re_run", latency_ms: 8400}` — no content |
+| Immediate export after generation | Positive quality signal | `{event: "export", latency_ms: 2100}` — no content |
+| Prompt re-runs with same seed | Negative signal — output didn't satisfy | Count only, no prompt text |
+| Explicit thumbs up/down (opt-in) | Direct preference signal | Aggregate per generation parameter set |
 
-### Strategy 6 — Contributor Data Programs (Explicit Consent, Incentivized)
-
-Adobe Stock already has a contributor consent program for AI training. The gap is using it as a systematic data curation pipeline, not just a legal check.
-
-**The structured program:**
-- **Tier 1 — High-quality contributor consent:** Top 1% of Stock contributors (by download volume and professional quality score) offered an explicit AI training consent agreement with revenue share from model improvement. Their assets become the quality ceiling training set.
-- **Tier 2 — Style diversity program:** Actively recruit contributors in underrepresented style categories (illustration styles, regional aesthetics, professional photography niches where Firefly underperforms). Close the diversity gap with targeted recruitment.
-- **Tier 3 — Agency partnerships:** Work directly with mid-size creative agencies (not their client work — their internal portfolio and style guide assets) under explicit data licensing. These assets encode professional creative intent at the level that Adobe's commercial customers actually need.
-- **Contributor feedback loop:** Top contributors already have opinions about Firefly quality. Run structured quality feedback sessions with them — pairwise preference on Firefly outputs vs. their own work. This is expert human preference data, not customer data.
-
-> **The flywheel:** Better model quality → more Firefly-generated content sold on Stock → more contributor revenue → more contributors willing to participate in the training program → better model quality. The data program and the business model reinforce each other.
+> **The architectural requirement:** A separate events pipeline strips content before the signal reaches the training team. Events carry timestamps, action types, and hashed session IDs. No images. No prompt text tied to identifiable users. Enterprise customers are excluded from this pipeline entirely under separate T&Cs.
 
 ---
 
-### Data Strategy Priority Order
+### Consolidated Priority Table — All Three Buckets
 
-| Priority | Strategy | Timeline | Cost | ELO impact |
-|---|---|---|---|---|
-| **1** | Adobe Fonts → text rendering LoRA | 60 days | Low — data pipeline + LoRA training | Direct: +20–30 points on text accuracy |
-| **2** | DPO on Stock images (contracted rater preference pairs) | 90 days | Medium — rater program | Direct: aesthetic quality lift |
-| **3** | Behavioral signal pipeline (opt-in, aggregate, content-free) | 90 days | Medium — eng infra | Indirect: reward signal for ongoing fine-tuning |
-| **4** | Counterfactual degradation synthetics | 45 days | Very low — automated pipeline | Direct: hard negative mining for specific failure modes |
-| **5** | Distillation from Ideogram (text) + FLUX (aesthetic) | 120 days | Medium — research + legal review | Direct: closes gap to specialist models |
-| **6** | Contributor data program expansion | 6 months | High — program management + revenue share | Long-term: raises quality ceiling |
+| Priority | Bucket | Action | Timeline | Cost | Expected impact |
+|---|---|---|---|---|---|
+| **1** | A — Adobe-owned | Adobe Fonts → text rendering LoRA | 60 days | Low | +20–30 pts text accuracy |
+| **2** | B — Open source | Pick-a-Pic v2 + HPD v2 → DPO fine-tune | 60 days | Very low — data is free | Aesthetic preference lift |
+| **3** | B — Open source | MagicBrush + InstructPix2Pix → editing LoRA | 90 days | Very low | Editing arena entry |
+| **4** | C — Synthetic | Counterfactual degradation pipeline | 45 days | Very low — automated | Hard negative coverage |
+| **5** | A — Adobe-owned | DPO on Stock (contracted rater sessions) | 90 days | Medium | Quality ceiling lift |
+| **6** | B — Open source | DALL-E 3 recaptioning methodology on Stock | 90 days | Medium — compute | Prompt adherence lift |
+| **7** | C — Behavioral | Opt-in behavioral signal pipeline | 90 days | Medium — eng infra | Ongoing reward signal |
+| **8** | B — Open-weight | FLUX.1-schnell distillation → Express model | 120 days | Medium | Latency + Express quality |
+| **9** | A — Adobe-owned | Stock contributor Tier 1 consent program | 6 months | High | Long-term quality ceiling |
 
-> ⭐ **The Foundations PM insight:** Most teams treat data strategy as "get more data." The constraint Adobe operates under forces a smarter question: "What signal do we already own, and are we using it?" Adobe Fonts alone could close the text rendering gap. Adobe Stock preference sessions could generate DPO training data at scale. The behavioral signal pipeline is already possible with a privacy-safe events architecture. None of these require touching a single pixel that a customer created.
+> ⭐ **The Foundations PM framing:** Three buckets. Adobe-owned data is the moat — it differentiates. Open source data is free signal that most teams don't fully exploit. Synthetic and behavioral data compounds over time. The right answer to "how do you improve quality without customer data" is not one strategy — it is a layered program across all three buckets running in parallel.
 
 ---
 
-## 10. Success Metrics
+## 9. Success Metrics
 
 | Metric | Target | JD alignment |
 |---|---|---|
@@ -488,6 +486,8 @@ Adobe Stock already has a contributor consent program for AI training. The gap i
 ---
 
 ## 10. Open Questions for the Interview
+
+
 
 1. **Eval contract:** Is there a documented quality threshold per surface (Express vs. Photoshop vs. GenStudio)? Who currently makes the ship/no-ship call when thresholds are not defined?
 
