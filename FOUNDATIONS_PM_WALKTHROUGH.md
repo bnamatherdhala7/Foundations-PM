@@ -2,7 +2,7 @@
 ## Adobe Firefly — GenAI Foundations: Quality, Evaluation & Roadmap
 
 **Author:** Bharat Namatherdhala
-**Role:** Adobe Research & AI — Foundations PM
+ Adobe Research & AI — Foundations Team
 **Date:** May 2026
 
 ---
