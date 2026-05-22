@@ -128,6 +128,7 @@ This is not a PM studying for an interview. This is the PM who launched the prod
 | **Three-Layer Eval Stack** | "The architecture I'd build. Layer 2 is pixel math — I shipped this in Stil. Layer 3 feeds back to training. That loop is what's missing today." |
 | **Competitive Landscape** | "Real ELO numbers. Image 5 context. The three-gap decomposition — different owners, different timelines, different fixes." |
 | **Capability Roadmap** | "Tier 1 is infrastructure. Tier 2 is 90-day LoRA. Tier 3 is the 18-month foundation model work. Each line is anchored to a named benchmark deficit." |
+| **Data Strategy** | "Six strategies for improving quality without customer data. Lead with Adobe Fonts → text rendering LoRA. This is the question that separates a PM who understands the constraint from one who doesn't." |
 | **Evidence: What I've Built** | "Four proof points — each one maps to a JD requirement. Stil = eval stack. Vigil/GSentinel = agentic architecture. Content Trust = platform strategy. CI pipeline = competitive insight." |
 
 **Transition line after walkthrough:**
@@ -165,6 +166,12 @@ This is not a PM studying for an interview. This is the PM who launched the prod
 | **CI pipeline cost** | $0.003 per Firefly competitive report |
 | **Multi-model platform** | Adobe integrated FLUX 1.1, Imagen 4, Ideogram 3.0, Runway Gen-4 at MAX 2025 |
 | **US Patent** | US11556836B1 — ML recommendation engine (Intuit) |
+| **Data strategy #1** | Adobe Fonts → text rendering LoRA. Adobe owns the complete font corpus — no competitor has this dataset. 60-day pipeline, not a research project. |
+| **Data strategy #2** | DPO on Adobe Stock — contracted raters do pairwise preference on owned images. Preference data without touching customer content. |
+| **Data strategy #3** | Behavioral signal (opt-in, aggregate, content-free) — dwell time + re-run rate + export rate as reward signal. Content never stored, only the action sequence. |
+| **Data strategy #4** | Counterfactual degradation synthetics — degrade owned Stock images, create preference pairs, hard negative mine. Automated, near-zero cost. |
+| **Data strategy #5** | Knowledge distillation from Ideogram (text) + FLUX (aesthetic) — generate synthetic pairs using Adobe-authored prompts, learn from output distribution. No weights copied. |
+| **Data constraint framing** | "Most teams ask 'get more data.' Adobe's constraint forces the right question: what signal do we already own and aren't using?" |
 
 ---
 
@@ -184,6 +191,9 @@ This is not a PM studying for an interview. This is the PM who launched the prod
 
 **"Open-weight vs. proprietary?"**
 > "Layer-specific. Foundation model stays Firefly — the training data advantage can't be replicated. Brand customization → LoRA on Firefly; retraining is millions of dollars. Domain grounding → RAG. Open-weight models like FLUX matter as benchmarks and as the LoRA research ecosystem — read their work, don't build an alternative foundation."
+
+**"How do you improve Firefly quality if you can't train on customer data?"**
+> "Six strategies, none of which require customer content. First — Adobe Fonts is the most underexploited asset we have. A text rendering LoRA trained on the full font corpus would close the <45% text accuracy gap faster than any other approach, and no competitor has access to that dataset. Second — DPO on Adobe Stock: contracted raters do pairwise preference sessions on owned images, generating preference training data at scale. Third — behavioral signal with a privacy-safe events architecture: dwell time, re-run rate, export rate as reward signal — content never stored, only the action sequence. Fourth — counterfactual degradation: degrade owned Stock images to create hard negative pairs, automated pipeline, near-zero cost. Fifth — knowledge distillation: generate synthetic pairs using Adobe-authored prompts through Ideogram and FLUX APIs, learn from their output distribution without copying weights. Sixth — expand the Stock contributor consent program into a systematic data curation pipeline with revenue share for the top tier. The framing I'd use internally: most teams ask 'get more data.' Adobe's constraint forces the better question — what signal do we already own and aren't using?"
 
 **"You've been in PLG and monetization — why Foundations?"**
 > "The 0→1 Firefly launch and the MCP harness architecture are the reasons. I've seen from the launch side what happens when the foundation layer doesn't give clear quality signal — you ship uncertainty. From the agentic architecture side I've seen what it takes to build orchestration that scales. Foundations PM is where both of those threads converge. The leverage is higher here than on any surface — every team that builds on top inherits what this role builds."
