@@ -2,7 +2,7 @@
 ## Adobe Firefly — GenAI Quality, Evaluation & Foundations
 
 **Author:** Bharat Namatherdhala
-**Role:** Principal PM Candidate, Adobe Research & AI — Foundations
+** Adobe Research & AI — Foundations
 **Date:** May 2026
 
 ---
