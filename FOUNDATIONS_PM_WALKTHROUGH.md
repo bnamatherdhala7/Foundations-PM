@@ -56,15 +56,13 @@ The most important product decision in the Foundations PM role is recognizing th
 
 ### Segment C — Business Users (GenStudio, Creative Cloud for Teams, Enterprise)
 
-**What they do:** Brand-compliant asset production at scale — global campaigns, regulated industries, multi-market localization.
-**Their quality bar:** Is this legally cleared, brand-consistent, and producible by a non-designer?
-**Their failure mode:** Legal and brand review blocking production. A generated asset that requires lawyer review before use is not faster than stock photography.
-**What they actually need:**
-- IP indemnification visible at the moment of generation, not buried in T&Cs
-- Brand Kit compliance — generated output stays within hex codes, tone registers, composition rules
-- Custom Models that lock style reliably across a campaign, not just a single asset
+Enterprise teams don't have a creativity problem. They have a compliance and scale problem. A global campaign team running across 40 markets needs assets that are legally cleared, brand-consistent, and producible by a non-designer in each market — without routing every output through legal.
 
-**Insight from building for this segment (MailIntel, CI system):** Business users pay for AI that reduces decisions, not AI that creates them. The eval metric that matters is not quality score — it is whether the output went to production without revision.
+The failure mode here is not bad output quality. It's a generated asset that requires lawyer review before use — which is not faster than licensed stock photography. The quality bar is not aesthetic. It is: did this go to production without revision?
+
+What they actually need is IP indemnification visible at the moment of generation (not buried in T&Cs), Brand Kit compliance that locks to hex codes and tone registers, and Custom Models that hold style reliably across 50 assets in a campaign — not just one demo output.
+
+The insight from building MailIntel and the Firefly CI system: business users pay for AI that reduces decisions, not AI that creates more of them. The eval metric that matters is production rate without revision — not quality score.
 
 ---
 
@@ -74,7 +72,7 @@ The foundational challenge in Foundations PM is not building better models — i
 
 Most eval pipelines stop at two metrics. Both fail in specific ways you must be able to name when working alongside researchers:
 
-| Metric | What it measures | Where it fails — say this to show depth |
+| Metric | What it measures | Known limitation |
 |---|---|---|
 | **FID** | Statistical distance between real and generated distributions | A model generating statistically average images scores well while failing every professional. Measures population similarity, not individual output value. |
 | **IS** (Inception Score) | Object clarity + output diversity | Classifier-dependent; fails to detect poor diversity *within* a class. High IS, still looks like stock photo. |
@@ -82,7 +80,7 @@ Most eval pipelines stop at two metrics. Both fail in specific ways you must be 
 | **VBench** *(video)* | 16 dimensions: motion smoothness, flicker, subject consistency | Resource-intensive; not a regression metric for every build. |
 | **FVD** *(video)* | Distribution similarity between real and generated clips | Inherits FID's blind spots — directional, not definitive. |
 
-> ⭐ **The measurement gap:** None of these answer the question a professional actually asks — *"Will I use this output, or will I open Photoshop?"* That question requires human signal.
+> **The measurement gap:** None of these answer the question a professional actually asks — *"Will I use this output, or will I open Photoshop?"* That question requires human signal.
 
 **Ship gate: Human Preference Rate ≥ 75%.** Below 60% is a coin flip. Shipping a coin flip destroys professional trust faster than not shipping.
 
@@ -135,7 +133,7 @@ Generation → User behavior signal (dwell, re-edit, abandon)
            → Ship gate cleared or not
 ```
 
-> ⭐ **The key design decision:** The feedback loop is only useful if it is segment-specific. A creative professional's failing pair and a content creator's failing pair are different failures. Aggregating them into one preference number loses the signal entirely.
+> **The key design decision:** The feedback loop is only useful if it is segment-specific. A creative professional's failing pair and a content creator's failing pair are different failures. Aggregating them into one preference number loses the signal entirely.
 
 ---
 
@@ -164,7 +162,7 @@ Generation → User behavior signal (dwell, re-edit, abandon)
 
 ### Hybrid architecture — the layer recommendation
 
-> "Foundation model → Firefly. Commercially safe training data is the moat that no open-weight model replicates. Brand customization → LoRA on Firefly. Full retraining is millions of dollars. Domain grounding → RAG. Retrieval is cheaper than training and keeps outputs current. Prompt layer → few-shot templates for proprietary APIs where weight access isn't available."
+The right answer is not Firefly vs. open-weight vs. proprietary API — it is which layer of the stack benefits from each approach. Foundation model stays Firefly: the commercially safe training data is the moat that no open-weight model replicates. Brand customization goes to LoRA on Firefly: full retraining is millions of dollars. Domain grounding goes to RAG: retrieval is cheaper than training and keeps outputs current. Prompt engineering covers the proprietary API layer where weight access isn't available.
 
 ---
 
@@ -226,15 +224,13 @@ FLUX.1-dev leads with 12.9k likes and 716k downloads — the de facto open-weigh
 | **Imagen 4 (Google)** | Strong quality; cost-efficient ($0.02/image) | Enterprise-only; no creative tool integration; no consumer surface | Firefly reaches all three segments in one platform |
 | **Sora / Runway / Kling (video)** | Strong video generation quality | No CC integration; no brand lock; no IP indemnification | Firefly Video integrates into Premiere and Frame.io |
 
-> ⭐ **The honest assessment:** Firefly is not winning on ELO scores today. It is winning on trust and workflow integration — which matter enormously to the enterprise segment but are invisible in arena rankings. The roadmap question is: how do you close the ELO gap while preserving the integration and safety advantages that no competitor can replicate?
+> **The honest assessment:** Firefly is not winning on ELO scores today. It is winning on trust and workflow integration — which matter enormously to the enterprise segment but are invisible in arena rankings. The roadmap question is: how do you close the ELO gap while preserving the integration and safety advantages that no competitor can replicate?
 
 The 368-point ELO gap to GPT Image 2 is not a single problem — it is three separate problems: text rendering (<45% accuracy), image editing quality (not in top 5), and aesthetic quality ceiling (below Midjourney). Each has a different fix. Only one of them is a model research problem. The other two are product and data problems.
 
 ---
 
 ## 6. Capability Roadmap
-
-*Each item is anchored to a specific ELO gap, benchmark finding, or segment pain point above. This is not a wish list — it is a ranked response to named deficits.*
 
 ### The three gaps to close, in priority order
 
@@ -289,7 +285,7 @@ The 368-point ELO gap to GPT Image 2 is not a single problem — it is three sep
 | Text rendering accuracy | <45% (Image 3) | Improved; target >60% | >70% (LoRA adapter) | >85% |
 | Human preference rate (CC Pro) | Baseline TBD | Baseline TBD | ≥ 65% | ≥ 75% (ship gate) |
 
-> ⭐ **The roadmap thesis:** The 368-point ELO gap to GPT Image 2 is not one problem — it is three separate problems with three different owners. Text rendering is a data and LoRA problem (90 days). Image editing quality is a fine-tuning and eval pipeline problem (90 days). Aesthetic ceiling is a foundation model and training data problem (18 months). Framing the roadmap this way lets research and product work in parallel instead of waiting for a single "quality improvement" cycle.
+> **The roadmap thesis:** The 368-point ELO gap to GPT Image 2 is not one problem — it is three separate problems with three different owners. Text rendering is a data and LoRA problem (90 days). Image editing quality is a fine-tuning and eval pipeline problem (90 days). Aesthetic ceiling is a foundation model and training data problem (18 months). Framing the roadmap this way lets research and product work in parallel instead of waiting for a single "quality improvement" cycle.
 
 ---
 
@@ -447,15 +443,15 @@ When owned data runs out and open data has been used, the remaining signal comes
 
 ## 8. Success Metrics
 
-| Metric | Target | JD alignment |
+| Metric | Target | Why it matters |
 |---|---|---|
-| **Human Preference Rate** *(ship gate)* | ≥ 75% per segment | Expert feedback on model quality |
-| **Repeat Usage Rate at 7 days** | Baseline → +20% in 6 months | Feedback loops, customer value realized |
-| **Post-generation editing time** | −30% for CC Pro segment | Customer insight → practical approach |
-| **Task Completion Rate** | Baseline → +15% | Tangible customer results |
-| **Inference cost per generation** | Track vs. segment routing model | Quality/cost/latency evidence-based view |
-| **Preference rate feedback cycle time** | Human eval → training brief → re-eval ≤ 2 weeks | Scalable eval framework |
-| **Brand lock reliability (Custom Models)** | ≥ 90% brand-compliant outputs per adapter | Enterprise segment quality bar |
+| **Human Preference Rate** *(ship gate)* | ≥ 75% per segment | Below 60% is a coin flip — shipping it destroys professional trust faster than not shipping |
+| **Repeat usage rate at 7 days** | Baseline → +20% in 6 months | Output was good enough to trust again. The only metric that can't be gamed by generation volume |
+| **Post-generation editing time** | −30% for CC Pro segment | If professionals spend 15 minutes cleaning up Firefly output, the workflow failed regardless of the eval score |
+| **Task Completion Rate** | Baseline → +15% | Measures whether the capability is actually usable, not just technically impressive |
+| **Inference cost per generation** | Track against segment routing model | Determines pricing model and whether Express distillation stays financially viable at scale |
+| **Preference rate → training brief cycle time** | ≤ 2 weeks | Human eval that doesn't feed back into training in 2 weeks doesn't compound — it's just a gate |
+| **Brand lock reliability (Custom Models)** | ≥ 90% brand-compliant outputs per adapter | Enterprise segment won't renew if generated assets still need lawyer review before use |
 
 ---
 
