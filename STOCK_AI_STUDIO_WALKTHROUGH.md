@@ -34,9 +34,20 @@ The remaining problem is in two parts:
 | What exists | Where | Gap |
 |---|---|---|
 | Find Similar | Left panel + right-click menu | Not visible on hover — buried interaction |
-| AI badge | On Firefly-generated result cards | Not actionable — no click behavior |
+| AI badge | Bottom-left corner of Firefly-generated cards | Purely informational — zero click behavior |
 | Suggestion chips | Below search bar | Keyword synonyms only, not aesthetic directions |
 | Standard Content filter | Active by default | No aesthetic register filter (warm, editorial, candid) |
+
+**Grid hover state — direct observation:**
+
+A Firefly-generated image on hover shows three icons in the top-right corner:
+- ❤️ Favorite
+- Compare
+- `...` Overflow menu
+
+**That is the complete hover surface.** No Change color. No Change mood. No Change background. No AI Studio entry point. The AI badge sits in the bottom-left corner — static, non-clickable. Even for assets the user has already licensed ("Licensed" badge in the bottom-right), there is no inline AI action.
+
+> **⭐ This screenshot is the proof point for Solution S1.** The customer who sees a yellow blazer and thinks "perfect composition, wrong color for my brand" has three options on hover: favorite it, compare it, or open a menu that does not contain the action they need. They will skip the asset. They will never reach the detail page where Change color exists.
 
 **The abandonment moment is here — on the grid.** A user who does not click through to the detail page never sees a single AI Studio capability.
 
