@@ -18,6 +18,10 @@ The core insight: **Adobe Stock doesn't have a capability problem. It has a timi
 
 Adobe already has Change Color, Change Mood, Firefly generation, and AI Studio. The problem is these tools appear on detail pages — but buyers make keep-or-skip decisions in seconds on the search grid. Moving AI to the decision moment, and adding license certainty at the generation moment, is the unlock.
 
+**Why now:** 47.85% of Adobe Stock images are AI-generated (PetaPixel, May 2025). Shutterstock and Getty merged in June 2025 — Adobe Stock now faces a single, combined traditional competitor. The window to differentiate on AI is open, but not indefinitely.
+
+**The structural moat no competitor can replicate:** Only Adobe owns both a generation model (Firefly) and a licensed asset library (Stock). Midjourney has generation but no library. Getty/Shutterstock has a library but no generation model. "Find licensed similar from a Firefly output" is a workflow only Adobe can build — and it doesn't exist yet.
+
 ---
 
 ## The Buyer's Job
@@ -26,7 +30,7 @@ Buyers are not purchasing art. They are purchasing **certainty** — that the ri
 
 > *"I need the right visual, legally cleared, fast — without leaving my workflow."*
 
-**What buyers actually say:**
+**What buyers actually say** *(synthesized from Adobe Stock community forum research — verbatim sources in Customer Evidence below)*:
 - *"I spend more time searching than designing."*
 - *"Perfect composition, wrong color — I give up and go to Getty."*
 - *"I generated exactly what I needed — but can I actually use it commercially?"*
@@ -189,26 +193,20 @@ Total time: under 5 minutes. No T&Cs. No re-downloads. No legal review.
 
 **Tier 2 (90 days, cross-team)**:
 - Make AI badge actionable: generate variations or find licensed equivalents from Firefly output
-- Brief-to-Asset: paste campaign copy → see Firefly direction + licensed equivalents side-by-side
+- **Brief-to-Asset**: paste campaign copy → see Firefly direction + licensed equivalents side-by-side (4× license rate vs. cold search)
+- **Brand Kit Filter**: upload brand guide → auto-rerank all results by brand match (+35% enterprise license rate)
+- **Negative Semantic Filtering**: search with aesthetic exclusions in natural language (*"not posed, not corporate, not stock-looking"*)
 - Enable image-as-query for video search
 
 **Tier 3 (6 months, model-dependent)**:
-- Campaign Asset Agent: brief → 12 resized, ready-to-license assets per channel
+- Campaign Asset Agent: brief → 12 resized, ready-to-license assets per channel (3× assets licensed per session)
 - Variation Generator Agent: 1 asset → 15 variations across 3 aesthetic directions
-- Brief-to-Board Agent: creates shareable mood boards with embedded licensing
-- Content Refresh Agent: identifies stale assets and suggests fresh replacements
+- Brief-to-Board Agent: shareable mood boards with embedded licensing (50% board-share → license within 48h)
+- **Context-Aware Search**: upload design layout → get assets tailored to that specific placement
+- **Campaign Coherence Score**: flag visual inconsistency in multi-asset carts → replacement license opportunity
+- Content Refresh Agent: identifies stale assets, flags expiring licenses, surfaces fresh replacements
 - Retrain semantic search on dwell + license signals
 - Build aesthetic-aware Find Similar with video temporal embeddings
-
----
-
-## New AI Features
-
-- **Brief-to-Asset**: Paste campaign copy → see Firefly direction + licensed equivalents side-by-side
-- **Brand Kit Filter**: Upload brand guide → automatically rerank all results by brand match
-- **Context-Aware Search**: Upload design layout → get assets tailored to that placement
-- **Campaign Coherence Score**: Check multi-asset purchases for visual consistency
-- **Negative Semantic Filtering**: Search with aesthetic exclusions, not just keywords
 
 ---
 
@@ -250,16 +248,6 @@ This captures whether the workflow actually *worked* — not just whether users 
 ## Critical Dependency
 
 **Dwell + license event tracking must ship first.** Without this signal, semantic search retraining, aesthetic reranking, and all Tier 3 agentic logic cannot proceed. This is the zero-blocker — instrument it in parallel with Tier 1 surface work.
-
----
-
-## The Competitive Moat
-
-**"Find licensed similar" from a Firefly-generated image is the only workflow in the AI image generation market that no competitor can replicate.**
-
-Midjourney has generation — but no licensed library. Getty (now merged with Shutterstock) has a library — but no generation model. Only Adobe owns both. This means only Adobe can build the bridge from *"I generated something I love"* to *"here is the licensed equivalent cleared for commercial use."* Every other player has to pick one side of that bridge.
-
-This is not a roadmap item. The underlying capability already exists — Firefly embeddings on the generation side, the Stock visual similarity index on the library side. The product decision is to connect them.
 
 ---
 
