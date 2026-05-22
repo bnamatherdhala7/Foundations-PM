@@ -2,7 +2,7 @@
 ## Adobe Firefly — GenAI Foundations: Quality, Evaluation & Roadmap
 
 **Author:** Bharat Namatherdhala
-** Adobe Research & AI — Foundations
+**Role:** Adobe Research & AI — Foundations PM
 **Date:** May 2026
 
 ---
@@ -172,6 +172,8 @@ Generation → User behavior signal (dwell, re-edit, abandon)
 
 ### Where Firefly stands today (Artificial Analysis Arena ELO, May 2026)
 
+> **Version note:** Arena benchmarks reflect Firefly Image 3 (ELO 971) — the most recent version in public eval infrastructure as of May 2026. Firefly Image 5 launched October 2025 at Adobe MAX with native 4MP output, improved human anatomy rendering, better text rendering, and layered editing. Image 5 improvements are real but not yet reflected in arena scoring. The ELO baseline below is the signal the market sees — and the gap that matters for the roadmap.
+
 | Model | ELO (text-to-image) | ELO (image editing) | Cost/image | Speed |
 |---|---|---|---|---|
 | **GPT Image 2 (high)** | 1339 | 1253 | $0.04–0.17 | ~10–25s |
@@ -179,7 +181,7 @@ Generation → User behavior signal (dwell, re-edit, abandon)
 | **FLUX.2 dev Turbo** | 1160 | 1161 | $0.04–0.06 | ~6–12s |
 | **Midjourney v7** | 1093 | — | $10–120/mo | ~30–60s |
 | **Imagen 4 (Google)** | — | — | $0.02–0.05 | ~4–10s |
-| **Adobe Firefly 3** | **971** | **Not in top 5** | $5–10/mo | ~8–15s |
+| **Adobe Firefly Image 5 (current)** | **971 (Image 3 baseline)** | **Not in top 5** | $5–10/mo | ~8–15s |
 
 *Sources: [Artificial Analysis Text-to-Image Arena](https://artificialanalysis.ai/image/leaderboard/text-to-image) · [Artificial Analysis Image Editing Arena](https://artificialanalysis.ai/image/leaderboard/editing)*
 
@@ -188,18 +190,28 @@ Generation → User behavior signal (dwell, re-edit, abandon)
 - Firefly vs. Midjourney: **−122 ELO points** on aesthetic quality
 - Firefly on image editing: **not ranked in the top 5** — the arena is dominated by GPT Image and Gemini
 
+**Image 5 improvements that are not yet in arena scoring:**
+- **Native 4MP resolution** — Image 3/4 required upscaling; Image 5 outputs natively at 4 megapixels
+- **Improved text rendering** — meaningful improvement on typography accuracy (specific % pending internal eval)
+- **Layered editing + "Prompt to Edit"** — instruction-following edits without masking, launched at MAX 2025
+- **Better human anatomy** — reduced artifacts on hands, faces, anatomical accuracy under art direction
+- **Cost reduction** — 10 credits/generation (Image 4 Ultra was 20) — doubles throughput at same spend
+
+**Adobe's multi-model platform strategy (MAX 2025):**
+Adobe also integrated FLUX 1.1, Imagen 4, Ideogram 3.0, Runway Gen-4, and Veo 3.1 at MAX 2025. Firefly is no longer positioned as the only model — Adobe is becoming a model orchestration platform that routes to the best model per task. This changes the competitive framing: the Foundations PM job is building the quality and eval layer that governs a fleet of models, not defending a single model against competitors.
+
 **On HuggingFace (open-weight community signal):**
-FLUX.1-dev leads with 12.9k likes and 716k downloads — the de facto open-weight standard. Firefly is absent (not open-weight), which means the developer and fine-tuning ecosystem is building on FLUX, not Firefly. This matters for Custom Models adoption.
+FLUX.1-dev leads with 12.9k likes and 716k downloads — the de facto open-weight standard. Firefly is absent (not open-weight), which means the developer and fine-tuning ecosystem is building on FLUX, not Firefly. This matters for Custom Models adoption and community-generated LoRA fine-tunes.
 
 *Source: [HuggingFace text-to-image models by likes](https://huggingface.co/models?pipeline_tag=text-to-image&sort=likes)*
 
 ### Capability gap breakdown
 
-| Capability | Firefly 3 | Best-in-class | Gap owner |
+| Capability | Firefly Image 5 | Best-in-class | Gap owner |
 |---|---|---|---|
-| **Aesthetic quality / artistic style** | Below Midjourney | Midjourney v7 (ELO 1093) | −122 ELO — Midjourney's training data curation |
-| **Text rendering in image** | <45% accuracy (Firefly 3) | Ideogram 2.0 | Critical gap — text in designs is a core creative use case |
-| **Prompt adherence / compositional accuracy** | Moderate | FLUX Pro 1.1, GPT Image 2 | Object count, spatial relationships, color fidelity |
+| **Aesthetic quality / artistic style** | Below Midjourney | Midjourney v7 (ELO 1093) | −122 ELO — training data curation |
+| **Text rendering in image** | Improved in Image 5; <45% on Image 3 baseline | Ideogram 3.0 | LoRA gap, not foundation model — 90-day fix |
+| **Prompt adherence / compositional accuracy** | Improved in Image 5 | FLUX Pro 1.1, GPT Image 2 | Object count, spatial relationships, color fidelity |
 | **Image editing quality** | Not in top 5 | GPT Image 1.5 (ELO 1264) | **Highest urgency** — AI Studio is Firefly's product differentiator |
 | **Commercial safety** | Best-in-class | — | Only model with full IP indemnification and licensed training data |
 | **CC workflow integration** | Best-in-class | — | Lives in Photoshop, Express, GenStudio — no competitor matches |
@@ -227,7 +239,7 @@ The 368-point ELO gap to GPT Image 2 is not a single problem — it is three sep
 ### The three gaps to close, in priority order
 
 1. **Image editing quality** — Firefly not in top 5 on editing arena (GPT Image 1.5 leads at ELO 1264). AI Studio is Firefly's product differentiator. This gap makes the differentiator undefended.
-2. **Text rendering** — <45% accuracy on Firefly 3. Text in designs (logos, social graphics, presentations) is a core creative use case. Ideogram 2.0 specializes here. This is a LoRA problem, not a foundation model problem.
+2. **Text rendering** — <45% accuracy on Image 3 baseline; improved but not at parity in Image 5. Text in designs (logos, social graphics, presentations) is a core creative use case. Ideogram 3.0 specializes here. This is a LoRA problem, not a foundation model problem.
 3. **Aesthetic quality ceiling** — 122-point ELO gap to Midjourney. This is a training data curation and human preference feedback problem. Longer to close, but the feedback loop architecture is the lever.
 
 ---
@@ -270,12 +282,12 @@ The 368-point ELO gap to GPT Image 2 is not a single problem — it is three sep
 
 ### The 18-month ELO target
 
-| Metric | Today | 90-day target | 18-month target |
-|---|---|---|---|
-| Text-to-image ELO | 971 | 1,030 (text rendering LoRA ships) | 1,150 (aesthetic lift + editing LoRA) |
-| Image editing ELO | Not in top 5 | Top 5 entry (editing LoRA ships) | Top 3 (foundation model editing work) |
-| Text rendering accuracy | <45% | >70% (LoRA) | >85% |
-| Human preference rate (CC Pro) | Baseline TBD | ≥ 65% | ≥ 75% (ship gate) |
+| Metric | Baseline (Image 3 arena) | Image 5 (est.) | 90-day target | 18-month target |
+|---|---|---|---|---|
+| Text-to-image ELO | 971 | ~1,020–1,040 | 1,060 (text rendering LoRA) | 1,150 (aesthetic lift + editing LoRA) |
+| Image editing ELO | Not in top 5 | Not yet tracked | Top 5 entry | Top 3 |
+| Text rendering accuracy | <45% (Image 3) | Improved; target >60% | >70% (LoRA adapter) | >85% |
+| Human preference rate (CC Pro) | Baseline TBD | Baseline TBD | ≥ 65% | ≥ 75% (ship gate) |
 
 > ⭐ **The roadmap thesis:** The 368-point ELO gap to GPT Image 2 is not one problem — it is three separate problems with three different owners. Text rendering is a data and LoRA problem (90 days). Image editing quality is a fine-tuning and eval pipeline problem (90 days). Aesthetic ceiling is a foundation model and training data problem (18 months). Framing the roadmap this way lets research and product work in parallel instead of waiting for a single "quality improvement" cycle.
 

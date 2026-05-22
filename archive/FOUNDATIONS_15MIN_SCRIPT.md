@@ -1,159 +1,157 @@
 # Foundations PM — 15-Minute Interview Script
 
 **Role:** Principal PM, Adobe Research & AI — Firefly Image/Video Generation Quality
-**Time budget:** 15 minutes
-**Goal:** Show technical depth in AI eval + competitive knowledge + proof of shipping
+**Time budget:** 15 minutes · **Hard rule:** Never cut Block 3. Trim Block 4 if needed.
 
-*Hard rule: If you run long on Block 2, trim Block 4. Never cut Block 3 — it's the proof.*
+---
+
+## The Story Arc
+
+> **Who I am → What I've proven → Why I fit → What I'd do first**
+
+Every block connects a skill I've shipped to a gap Firefly has today. This is not a generic PM pitch. It is a direct answer to the JD.
 
 ---
 
 ## Block 1 — Opening (0:00–2:00)
 
-*One sentence who. One sentence what. One sentence why this role.*
-
-> "I'm a product manager who builds AI systems and measures them — not at the whiteboard level, but in production. I've shipped a working image quality measurement system, five multi-agent pipelines, and a competitive intelligence system that runs at $0.003 per report. I'm here because the Foundations PM role is exactly where I want to apply that — building the eval and architecture layer that every Adobe creative surface depends on."
-
-**Signal the structure:**
-> "I want to cover three things: how I think about Firefly's quality gap and how to close it, the systems I've built that map to these challenges, and how I'd approach the first 90 days."
-
----
-
-## Block 2 — Technical Depth: Where Firefly Stands + Eval Framework (2:00–6:00)
-
-*Lead with real data — this signals you've done the research, not just the frameworks.*
-
-### Start with the competitive position
-
-> "I want to anchor this in real data, not theory. On the Artificial Analysis arena today, Firefly 3 has an ELO of 971 on text-to-image. GPT Image 2 is at 1339 — that's a 368-point gap. Midjourney is at 1093. On the image editing leaderboard, which is the leaderboard that matters most for AI Studio — Firefly doesn't appear in the top five. GPT Image 1.5 leads at 1264.
-
-> The 368-point gap is not one problem. It's three separate problems, each with a different owner and a different fix:
+> "I'm a PM who builds and measures AI systems in production — not in docs, in code.
 >
-> First — text rendering accuracy: Firefly 3 is below 45% on complex text in images. This is a LoRA problem, not a foundation model problem. Targeted fine-tuning on typography failure pairs can close most of this gap in 90 days.
+> I shipped a working image quality measurement system. I shipped five multi-agent pipelines. I built a competitive intelligence system that runs at $0.003 per report. And the through-line in all of it is the same thing this role is about: you can't improve what you can't measure, and most teams stop measuring too early.
 >
-> Second — image editing quality: not in the top 5 on the editing arena. GPT Image and Gemini dominate. This is the most urgent gap because AI Studio is Firefly's product differentiator — it's the thing no competitor can replicate inside a professional workflow.
+> The Foundations PM job is the eval and architecture layer that every Adobe creative surface depends on. That's exactly where I want to work — because I've been building that layer from scratch, and I want to build it at the scale where it actually changes the product."
+
+**Then signal the structure in one sentence:**
+> "Three things: where Firefly stands and why, the systems I've built that map to those gaps, and three moves I'd make in 90 days."
+
+---
+
+## Block 2 — Where Firefly Stands + The Measurement Problem (2:00–6:00)
+
+*Lead with real numbers. This is where you show you did the research.*
+
+### The competitive position
+
+> "The Artificial Analysis arena shows Firefly at ELO 971 — that's the Image 3 baseline the market sees. We're on Image 5 now with native 4MP, better text rendering, and layered editing, but arena scoring lags. GPT Image 2 is at 1339. Midjourney is at 1093. On image editing — the leaderboard that matters most for AI Studio — Firefly isn't in the top 5.
 >
-> Third — aesthetic quality ceiling: 122 ELO points behind Midjourney. This is a training data curation and human preference feedback loop problem. Longer to close, but the lever is the eval pipeline."
+> That 368-point gap to GPT Image 2 is not one problem. It is three:
+>
+> **Text rendering** — below 45% on Image 3, improved in Image 5 but not at Ideogram parity. LoRA fix, not a foundation model problem. 90 days.
+>
+> **Image editing quality** — not in top 5. This is the highest urgency because AI Studio is the Firefly differentiator. 90 days with fine-tuning and a proper eval pipeline.
+>
+> **Aesthetic ceiling** — 122 points behind Midjourney. Training data curation and human preference feedback. 18 months."
 
-### The eval framework — why current measurement is part of the problem
+### Why the measurement is part of the problem
 
-> "If those gaps persist, part of the reason is how quality is currently measured. Most teams reach for FID and CLIP Score and stop there. Both are wrong in specific ways.
-
-> FID measures statistical distance between distributions. A model generating statistically average images scores well on FID while failing every professional. CLIP Score measures semantic alignment — a 'dramatic lighting' prompt scores well while the image feels flat. Neither tells you whether a professional will use the output.
-
-> The ship gate should be human preference rate ≥ 75%. Below 60% is a coin flip. You can't close a 368-point ELO gap if the eval pipeline can't detect the delta.
-
-> The architecture I'd build: three layers. Automated metrics on every build for regression detection. Deterministic pixel math for style consistency — no API cost, sub-second, catches batch incoherence that FID misses. Human preference ELO as the final gate. Automated scores tell you direction. Human signal tells you arrival.
-
-> And critically — that human signal has to feed back into training. If it's a one-time gate and not a compound loop, the gap doesn't close."
-
-### Routing decision
-
-> "On cost and latency: route Express to a distillation model, reserve the foundation model for CC Pro. Flow matching reduces inference steps and brings Generative Fill under 2 seconds — the professional adoption threshold."
+> "If those gaps persist, part of the reason is the eval stack. FID measures distribution similarity — a model generating statistically average images scores well while failing every professional. CLIP Score measures semantic alignment — 'dramatic lighting' scores well while the image feels flat. Neither answers whether a professional will use the output.
+>
+> The ship gate should be human preference rate ≥ 75%. Below 60% is a coin flip.
+>
+> The fix: three eval layers. Automated metrics every build for regression. Pixel math for style consistency across batches — no cost, sub-second. Human preference ELO as the final gate. And that human signal has to feed back into training within two weeks — not sit in a spreadsheet."
 
 ---
 
-## Block 3 — Projects as Proof Points (6:00–11:00)
+## Block 3 — Skills → Role (6:00–11:00) ← **Never cut this block**
 
-*Three projects, 90 seconds each. What I built → the principle → how it applies to Firefly.*
+*Each project answers a specific JD requirement. Lead with what I built, then how it applies.*
 
-### Stil — Feed Cohesion Score (6:00–7:30)
+### Skill 1: I built the eval stack you need — Stil Feed Cohesion Score
 
-> "I built an image quality measurement system called the Feed Cohesion Score — a 0–100 consistency rating across a creator's social feed using deterministic pixel math: color temperature, brightness, contrast, saturation variance. No model, no API cost, sub-second at any scale.
+> "I built a 0–100 image quality consistency system using deterministic pixel math: color temperature, brightness, contrast, saturation variance. No model. No API cost. Sub-second.
+>
+> **The principle:** pixel math is faster, cheaper, and more interpretable than a learned metric. You add a model only where it can't reach.
+>
+> **The Firefly application:** this is Layer 2 of the eval stack I'd build here. Does a batch of Firefly outputs from the same prompt hold tonal range across seeds? Does a Custom Model produce brand-consistent outputs across 50 generations? Same math. That's the eval layer that catches failures before they reach expensive human eval."
 
-> The design principle: you don't need a learned quality metric to measure consistency. Pixel math is faster, cheaper, more interpretable. You add a model only where pixel math can't reach.
+### Skill 2: I build agentic systems that work in production — Vigil + GSentinel
 
-> Direct application to Firefly: this is Layer 2 of the eval stack. Does a batch of generations from the same prompt hold tonal range across different seeds? Does a Custom Model produce brand-consistent outputs across 50 generations? Same math. That measurement costs nothing to run and catches failures before they reach human eval."
+> "Five multi-agent systems shipped. The consistent finding: FSM orchestration beats LLM orchestration for well-defined workflows. Deterministic state — full audit trail.
+>
+> In Vigil, RAG-first retrieval cut hallucinated queries by routing known patterns through retrieval before generation. MTTR: 47 minutes → 35 seconds. GSentinel auto-resolved 67% of incidents.
+>
+> **The principle:** retrieval and heuristics carry the load until they genuinely can't. Then you pay for inference. Keep orchestration costs predictable at 30-million-user scale.
+>
+> **The Firefly application:** retrieve known prompt structures, brand constraints, style seeds first. Generate only where retrieval fails."
 
-### Vigil + GSentinel — Agentic architecture (7:30–9:00)
+### Skill 3: I understand the full platform picture — Content Trust Agent
 
-> "Five multi-agent systems shipped. The consistent finding: FSM orchestration beats LLM orchestration for well-defined workflows. Deterministic state transitions give you a full audit trail — critical when you're shipping to 30 million Creative Cloud users and need to know exactly why an output failed.
-
-> In Vigil, RAG-first retrieval cut hallucinated queries by routing known patterns through retrieval before generation. MTTR dropped from 47 minutes to 35 seconds. The principle: heuristics and retrieval carry the load until they genuinely can't. Then you pay for inference.
-
-> For Firefly: retrieve known prompt structures, style seeds, brand constraints first. Generate only where retrieval fails. Inference cost stays predictable. Quality stays consistent."
-
-### Content Trust Agent — C2PA + SynthID (9:00–10:30)
-
-> "Most recently, I designed a Content Trust Agent for Adobe Stock. Buyers were experiencing AI content getting through the 'Exclude AI' filter because the filter relied on contributor self-declaration. The fix: read C2PA manifest at intake and run Google's SynthID detection — bypassing self-declaration entirely. Meta does the same with IPTC Digital Source Type.
-
-> The Foundations insight: Adobe co-founded C2PA. Every Firefly output already carries a Content Credential. That infrastructure exists in Firefly, Photoshop, and Express — it's not connected to the rest of the platform. Connecting it is an engineering project, not a research project.
-
-> Why this matters for this role: Firefly's commercially safe training claim is only as credible as its provenance infrastructure at scale. C2PA is the proof layer. As the 47.85% AI content problem compounds on Stock, Firefly's verified provenance becomes a competitive asset that GPT Image and Midjourney can't match."
-
----
-
-## Block 4 — First 90 Days: Three Concrete Moves (11:00–13:30)
-
-*Not "I'd learn the product." Actual decisions anchored to the data above.*
-
-> "Three things in the first 90 days, tied to the specific gaps I just named.
-
-> **First — define the eval contract per segment.** Right now there's likely a single quality bar for all surfaces. That's why the ELO gap exists but isn't being closed systematically — research is optimizing for the wrong target for half the segments. Express quality bar is 'good enough to post.' CC Pro quality bar is 'survives professional art direction.' GenStudio quality bar is 'brand-compliant without revision.' Three different numbers. One contract per segment ends the ship/no-ship debate.
-
-> **Second — ship the text rendering LoRA in 90 days.** Text accuracy below 45% is a named, specific, measurable gap. Ideogram built a specialty here. The fix is not retraining the foundation model — it's a targeted LoRA adapter on typography failure pairs. This is the fastest ELO-moving lever available without a model research investment. 90 days is achievable.
-
-> **Third — close the feedback loop.** Human preference sessions are currently a gate, not a loop. The output of every eval session should become a training brief to research within two weeks: 'Segment A preference rate dropped 3 points on lighting coherence — here are the 47 failing pairs.' That brief drives the next LoRA fine-tune. That's how you systematically close a 368-point gap instead of hoping the next training run improves things.
-
-> The metric I'd track above all others: **repeat usage rate at 7 days**. Not ELO, not generation count. Repeat usage means the output was good enough to trust again. That's what we're actually trying to build."
+> "I designed a provenance detection pipeline for Adobe Stock: C2PA manifest reading at intake + Google SynthID detection — bypassing contributor self-declaration entirely. Meta does the same with IPTC Digital Source Type.
+>
+> **The Foundations insight:** Adobe co-founded C2PA. Every Firefly output already carries a Content Credential. That infrastructure exists but isn't connected across the platform. Connecting it is an engineering project, not a research project.
+>
+> **Why it matters for this role:** Firefly's commercially safe training claim is only as credible as its provenance infrastructure at scale. That's a competitive moat GPT Image and Midjourney can't match."
 
 ---
 
-## Block 5 — Close + Questions (13:30–15:00)
+## Block 4 — First 90 Days (11:00–13:30)
 
-> "That's the framework — competitive position, eval stack, three 90-day moves. One question before I stop: where does the team currently feel most stuck — is it the eval pipeline not giving clear signal, the model quality ceiling, or the cross-team alignment on what 'good' means?"
-
-**Question 2 if time:**
-> "The image editing arena gap is what I'd prioritize first given AI Studio is the differentiator. Is there existing work on the editing quality side, or is that a greenfield opportunity?"
+> "Three concrete moves.
+>
+> **First: define the eval contract per segment.** Express bar is 'good enough to post.' CC Pro bar is 'survives professional art direction.' GenStudio bar is 'brand-compliant without revision.' Three thresholds. Research optimizes to the wrong target until these exist on paper.
+>
+> **Second: ship the text rendering LoRA.** Text accuracy is a named gap with a known fix — LoRA adapter on typography failure pairs. Not a foundation model project. 90 days is achievable.
+>
+> **Third: close the feedback loop.** Human preference sessions are currently a gate, not a loop. Every session should produce a training brief to research within two weeks. That's how you systematically close 368 ELO points instead of hoping the next training run helps.
+>
+> The one metric I'd track above all others: **repeat usage rate at 7 days**. Not ELO. Not generation count. Repeat usage means the output was good enough to trust again."
 
 ---
 
-## Cheat Sheet — Deliver Without Hesitation
+## Block 5 — Close (13:30–15:00)
 
-| Topic | Say this exactly |
+> "That's the arc — competitive position, three-layer eval stack, three 90-day moves. One question: where does the team feel most stuck today — is it the eval pipeline not giving clear signal, the model quality ceiling, or cross-team alignment on what 'good' means?"
+
+**If time:**
+> "The image editing arena gap is what I'd prioritize first. AI Studio is the differentiator — is that a greenfield area or is there existing work underway?"
+
+---
+
+## Cheat Sheet — Numbers to Deliver Without Hesitation
+
+| Topic | Say this |
 |---|---|
-| **Firefly ELO today** | 971 text-to-image (Artificial Analysis, May 2026) |
-| **GPT Image 2 ELO** | 1339 — gap of 368 points |
-| **Midjourney ELO** | 1093 — gap of 122 points |
+| **Firefly ELO** | 971 in arena (Image 3 baseline; Image 5 current, released Oct 2025) |
+| **GPT Image 2 ELO** | 1339 — 368-point gap |
+| **Midjourney ELO** | 1093 — 122-point gap |
 | **Image editing** | Firefly not in top 5; GPT Image 1.5 leads at 1264 |
-| **Firefly text rendering** | <45% accuracy on complex text (Firefly 3) |
-| **FLUX.1-dev HuggingFace** | 12.9k likes, 716k downloads — the open-weight community benchmark |
-| **The three ELO gaps** | Text rendering (LoRA, 90 days) · editing quality (fine-tune + eval, 90 days) · aesthetic ceiling (training data, 18 months) |
-| **Ship gate** | Human preference rate ≥ 75% — below 60% is a coin flip |
-| **Professional latency threshold** | Sub-2-second Generative Fill — above this, professionals abandon |
+| **Text rendering** | <45% on Image 3; improved in Image 5; not at Ideogram parity |
+| **FLUX.1-dev** | 12.9k HuggingFace likes, 716k downloads — open-weight community benchmark |
+| **Ship gate** | Human preference rate ≥ 75%; below 60% = coin flip |
+| **Latency threshold** | Sub-2-second Generative Fill — above this, professionals abandon |
 | **Flow matching** | Fewer inference steps → lower latency at same quality |
-| **LoRA vs. full retrain** | 10–100× cheaper; Custom Models is already this pattern |
-| **FID limit** | Statistically average images score well; misses artistic quality |
-| **CLIP Score limit** | Measures semantic alignment, not aesthetic nuance |
-| **Blank Drop test** | Remove image input — if output doesn't degrade, model wasn't reading the image |
-| **Image Sensitivity test** | Swap image, keep prompt — output must change appropriately |
+| **LoRA vs. retrain** | 10–100× cheaper; Custom Models is already this pattern |
+| **FID limit** | Average images score well; misses artistic quality |
+| **CLIP Score limit** | Semantic alignment only; misses aesthetic nuance |
+| **Blank Drop test** | Remove image input — if output doesn't degrade, model wasn't reading it |
+| **Image Sensitivity test** | Swap image, keep prompt — output must change |
 | **Vigil MTTR** | 47 min → 35 sec |
 | **GSentinel auto-fix rate** | 67% |
-| **Feed Cohesion Score inputs** | Color temp · brightness · contrast · saturation variance |
-| **Firefly moat** | IP indemnification + CC integration + Custom Models + commercially safe training — no competitor has all four |
+| **Feed Cohesion Score** | Color temp · brightness · contrast · saturation variance |
+| **Firefly moat** | IP indemnification + CC integration + Custom Models + commercially safe training |
 | **C2PA** | Adobe co-founded it; every Firefly output carries a Content Credential |
 | **SynthID** | Google DeepMind — 10B+ pieces watermarked; survives cropping and compression |
-| **AI content on Stock** | 47.85% of all Adobe Stock images are AI-generated (PetaPixel, May 2025) |
-| **CI pipeline cost** | $0.003 per Firefly competitive report |
+| **CI pipeline cost** | $0.003 per competitive report |
+| **Multi-model platform** | Adobe integrated FLUX 1.1, Imagen 4, Ideogram 3.0, Runway Gen-4 at MAX 2025 |
 
 ---
 
 ## Push-Back Scripts
 
 **"We don't use FID/CLIP Score internally"**
-> "That's genuinely useful — what's the primary signal your team uses today? I'd be curious whether it's more human preference-weighted or automated, and whether it's segment-specific or a single bar across surfaces."
+> "Helpful to know — what's the primary signal today? I'm curious whether it's human preference-weighted, automated, and whether it's segment-specific or a single bar."
 
-**"Our ELO position is different from what you cited"**
-> "Good to know — the Artificial Analysis arena is one data point, and I'd defer to internal data. The reason I cited it is that it's what the market sees, so even if internal eval says something different, the arena perception shapes how enterprise buyers and designers compare tools. What does your internal eval show?"
+**"Our ELO is different from what you cited"**
+> "I'd defer to internal data. I use the arena because it's what the market sees — enterprise buyers and designers compare on that. What does internal eval show?"
 
-**"How would you improve video quality specifically?"**
-> "Start with temporal consistency as a regression metric on every build — that's the dimension that maps to 'this video feels choppy,' which is the user complaint you can act on. VBench gives 16 dimensions but temporal flicker is the one that drives abandonment. Once that's instrumented, run human preference ELO on outputs that score ≥ 80 on consistency, to check whether the overall feel actually lands."
+**"How would you improve video quality?"**
+> "Temporal consistency as a regression metric on every build — that's the dimension that maps to 'this video feels choppy.' VBench has 16 dimensions but temporal flicker is the one that drives abandonment. Instrument that first, then run human preference ELO on outputs that pass the consistency floor."
 
 **"Tell me more about the competitive picture"**
-> "Firefly's ELO gap is real and addressable, but the market framing is different. Midjourney is in active litigation — enterprise can't use it. GPT Image 2 leads on quality but lives inside ChatGPT with no CC integration. FLUX leads the open-weight ecosystem with 12.9k HuggingFace likes but has no commercial safety guarantee. Firefly is the only option that is commercially safe, workflow-integrated, and brand-customizable. The gap to close is quality — and that's the Foundations PM job."
+> "Midjourney — active litigation, enterprise can't use it. GPT Image 2 — leads on quality, locked inside ChatGPT, no CC integration. FLUX — open-weight, developer ecosystem, no commercial safety guarantee. And Adobe isn't just Firefly anymore — at MAX 2025, Adobe integrated FLUX 1.1, Imagen 4, Ideogram 3.0, Runway Gen-4. The Foundations PM job is building the eval layer that governs a fleet of models. Firefly stays the default for commercially safe generation. The moat is the combination: IP indemnification, CC integration, Custom Models, commercially safe training. No competitor has all four."
 
-**"What's your view on open-weight vs. proprietary for Firefly?"**
-> "Layer-specific: foundation model stays Firefly — the commercially safe training data is the moat that no open-weight model replicates. Brand customization goes to LoRA adapters on Firefly — full retraining is millions of dollars. Domain grounding goes to RAG. The open-weight models like FLUX matter as a benchmark and as the community fine-tuning ecosystem that generates signal on what techniques work. We should be reading their LoRA research, not building an alternative foundation."
+**"Open-weight vs. proprietary?"**
+> "Layer-specific. Foundation model stays Firefly — the training data advantage can't be replicated. Brand customization goes to LoRA on Firefly — retraining is millions of dollars. Domain grounding goes to RAG. Open-weight models like FLUX matter as benchmarks and as the LoRA research ecosystem. Read their work, don't build an alternative foundation."
 
 ---
 
