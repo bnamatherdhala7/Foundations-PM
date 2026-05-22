@@ -345,7 +345,179 @@ from this series")
 
 ---
 
-## 10. Open Questions
+## 10. New AI Features & Agentic Workflows to Improve License Rates
+
+*These are not fixes to what exists — they are net-new capabilities that create new license-triggering moments.*
+
+---
+
+### 10a. AI Features
+
+**F1 — Brief-to-Asset (Prompt-to-Licensed)**
+User enters a creative brief or pastes campaign copy → AI Studio returns a split view: Firefly-generated image on the left (directional), closest licensed Stock equivalents on the right (ready to license).
+
+Why it lifts license rate: The customer who starts with a Firefly generation is exploring direction. Showing the licensed equivalent at that exact moment — when intent is highest — collapses the gap between "I know what I want" and "I found it." No new discovery session required.
+
+Metric: Brief-to-license completion rate. Hypothesis: 4× cold search baseline because the creative decision and the discovery happen in the same interaction.
+
+---
+
+**F2 — Brand Kit Filter**
+User uploads their brand guide (hex colors, visual rules, tone adjectives) once. AI Studio automatically reranks every search result set by brand match — assets that fit the brand palette surface first, assets that conflict are deprioritized. For assets that are "almost right," an inline Change color preview applies the brand palette automatically.
+
+Why it lifts license rate: The #1 reason in-house creatives leave without licensing is "this is close but not quite our brand." Brand Kit Filter converts "close" into "done." No Photoshop session required.
+
+Metric: Sessions with Brand Kit active vs. without — license rate delta. Target: +35% license rate for enterprise segment.
+
+Cross-team: Custom Models (Firefly) for the style matching layer; Stock search index for the reranking layer.
+
+---
+
+**F3 — Context-Aware Search (Page-Drop Search)**
+User pastes a URL or uploads a design layout. AI Studio reads the color scheme, content type, layout structure, and visual register of the page → returns assets that would fit that specific placement in context.
+
+Why it lifts license rate: Designers searching for assets without context often over-filter or under-filter. A designer building a landing page for a fintech product does not search "fintech landing page hero" — they search "professional woman technology" and get 664,244 results. Context-aware search understands the destination and filters for fit.
+
+Metric: Context-aware session → license rate vs. standard search. Hypothesis: 2.5× because result relevance is anchored to a real use case.
+
+---
+
+**F4 — Campaign Coherence Score**
+User adds multiple assets to a collection or licensing cart → AI Studio scores the set for visual coherence: color temperature variance, lighting consistency, tonal register alignment (the same dimensions as the Feed Cohesion Score in Stil, applied to a multi-asset purchase).
+
+> ⭐ A set that scores below 60 gets a flag: "These assets may look inconsistent in a campaign. Here are 3 replacements that would improve cohesion." Each replacement is a new license opportunity.
+
+Why it lifts license rate: Enterprise teams often license 10–20 assets per campaign. They don't discover that the set is incoherent until it is assembled in the campaign manager — after the brief is over. Surfacing this at checkout converts a "good enough" cart into a higher-quality, higher-value purchase.
+
+Metric: Cart-level coherence warning → replacement license rate. Target: 20% of flagged carts add at least one replacement asset.
+
+---
+
+**F5 — Negative Semantic Filtering**
+Search with exclusions in natural language: *"confident woman entrepreneur — not posed, not corporate, not stock-looking."* The model understands aesthetic exclusions, not just keyword exclusions.
+
+Why it lifts license rate: The most common reason a customer browses 5+ pages and exits without licensing is that every result looks like a stock photo. Negative filtering removes the category feel without requiring the customer to articulate what they DO want — they just exclude what they don't.
+
+Metric: Negative filter usage → license rate vs. standard query. Target: 1.8× because precision reduces browsing time.
+
+---
+
+### 10b. Agentic Workflows
+
+**A1 — Campaign Asset Agent** *(Highest license rate impact)*
+
+```
+Input: campaign brief (product, audience, message, channels, brand guide)
+         ↓
+Step 1: Agent parses brief → extracts visual requirements per channel
+         ↓
+Step 2: Runs parallel Stock searches for each channel format
+        (Instagram 1:1, LinkedIn 16:9, email header, display banner)
+         ↓
+Step 3: Applies Brand Kit Filter to each result set
+         ↓
+Step 4: Pre-applies Change color + Change mood previews
+         ↓
+Step 5: Returns curated shortlist: 3 assets per channel, licensed and resized
+         ↓
+Output: 12 campaign-ready assets, one-click license all
+```
+
+Why it lifts license rate: The agent collapses a 2-hour manual workflow (4 searches × 30 min each) into a single interaction. It licenses more assets per session because it surfaces needs the customer did not explicitly search for (the display banner asset the customer forgot to brief for).
+
+Metric: Campaign Agent sessions → total assets licensed per session. Hypothesis: 3× single-search session.
+
+---
+
+**A2 — Variation Generator Agent** *(A/B testing enablement)*
+
+```
+Input: one licensed asset
+         ↓
+Step 1: Generates Firefly variations in 3 aesthetic directions
+        (editorial warm / corporate clean / candid authentic)
+         ↓
+Step 2: For each direction, finds 3–5 licensed Stock equivalents
+         ↓
+Step 3: Returns 3×5 grid — 3 directions × 5 assets each
+         ↓
+Output: 15 campaign-ready variations, ready for A/B test launch
+```
+
+Why it lifts license rate: Current behavior — customer licenses 1 asset, runs it, tests nothing. With the Variation Agent, one license triggers 14 additional license opportunities. The agent converts a single-asset purchase into a campaign testing workflow.
+
+Metric: Agent-triggered additional licenses per session. Target: 4–6 additional licenses per agent invocation.
+
+---
+
+**A3 — Brief-to-Board Agent** *(Shortens creative review cycle)*
+
+```
+Input: creative brief text or uploaded PDF
+         ↓
+Step 1: Extracts 4–5 distinct visual directions from the brief
+         ↓
+Step 2: Curates 3 assets per direction from Stock
+         ↓
+Step 3: Groups into a visual mood board
+         ↓
+Step 4: Annotates each direction with rationale ("this direction
+        emphasizes the collaborative tone from brief section 2")
+         ↓
+Step 5: Calculates license cost per direction
+         ↓
+Output: Shareable PDF mood board with licensing options per direction
+```
+
+Why it lifts license rate: Creative review cycles kill license momentum. A customer who built a mood board, presented it, and got approval licenses within hours. A customer who is still in discovery licenses in days — or not at all. The Brief-to-Board Agent compresses the brief-to-approval cycle and attaches a licensing action directly to the approval moment.
+
+Metric: Board-share → license completion rate (from shared board link). Target: 50% of shared boards result in at least one license within 48 hours.
+
+---
+
+**A4 — Content Refresh Agent** *(Repeat license enablement)*
+
+```
+Input: user's existing licensed asset library (or campaign folder)
+         ↓
+Step 1: Analyzes visual style of existing library
+         ↓
+Step 2: Identifies assets that are visually stale
+        (overused composition patterns, trend-outdated visual register)
+         ↓
+Step 3: Finds fresh Stock assets in the same aesthetic register
+         ↓
+Step 4: Flags upcoming license expirations
+         ↓
+Output: "Refresh recommendations" — 10 fresh assets that match your
+        library's style but update the visual language
+```
+
+Why it lifts license rate: Repeat licensing is the highest-margin revenue. A customer who licensed 20 assets 18 months ago and let them expire is not a lost customer — they are a customer with a known aesthetic preference and a demonstrated willingness to pay. The Refresh Agent converts license expirations into renewal opportunities.
+
+Metric: Refresh Agent → license renewal rate. Target: 40% of customers who receive a refresh recommendation license at least one new asset within 30 days.
+
+---
+
+### 10c. License Rate Impact Summary
+
+| Feature / Agent | License trigger mechanism | Estimated lift | Timeline |
+|---|---|---|---|
+| **Campaign Asset Agent** | Brief → multi-channel asset pack in one session | 3× assets per session | 90 days |
+| **Brief-to-Licensed (F1)** | Firefly exploration → instant licensed equivalent | 4× vs. cold search | 90 days |
+| **Brand Kit Filter (F2)** | Removes "almost right" barrier for enterprise | +35% enterprise license rate | 90 days |
+| **Variation Generator Agent** | 1 license → 15 variation opportunities | 4–6 additional licenses per session | 6 months |
+| **Campaign Coherence Score (F4)** | Cart-level gap → replacement license | 20% of flagged carts add asset | 60 days |
+| **Brief-to-Board Agent** | Mood board share → approval → license | 50% board-share → license within 48h | 6 months |
+| **Context-Aware Search (F3)** | Design-context precision reduces abandonment | 2.5× license rate vs. standard search | 6 months |
+| **Content Refresh Agent** | License expiration → renewal opportunity | 40% refresh recommendation → new license | 6 months |
+| **Negative Filtering (F5)** | Reduces browsing time → faster license decision | 1.8× license rate for aesthetic queries | 90 days |
+
+> **⭐ The pattern across every feature and agent:** Each one eliminates a specific friction point between customer intent and license completion. The Campaign Asset Agent eliminates the multi-search session. Brand Kit Filter eliminates the Photoshop detour. Brief-to-Board eliminates the approval delay. None of these are "nice to have" engagement features — every one has a direct, measurable path to a license event.
+
+---
+
+## 11. Open Questions
 
 1. **Dwell data:** Do we track dwell ≥ 8s + no add-to-cart on grid thumbnails today? This signal drives three solutions.
 2. **Find Similar model:** Is the current similarity embedding aesthetic-aware at any dimension, or purely compositional?
