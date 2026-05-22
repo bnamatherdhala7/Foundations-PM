@@ -459,18 +459,4 @@ When owned data runs out and open data has been used, the remaining signal comes
 
 ---
 
-## 9. Open Questions for the Interview
-
-1. **Eval contract:** Is there a documented quality threshold per surface (Express vs. Photoshop vs. GenStudio)? Who currently makes the ship/no-ship call when thresholds are not defined?
-
-2. **Feedback loop gap:** Where does human preference data go after a model eval session today — is it feeding back into training, or is it a one-time gate?
-
-3. **Video regression coverage:** Is temporal consistency measured as a regression metric on every video model build, or only at major version checkpoints?
-
-4. **C2PA integration scope:** Firefly outputs carry Content Credentials. Is there a roadmap to use that signal within the platform — Stock intake, Creative Cloud Libraries, GenStudio asset management?
-
-5. **LoRA in production:** What does quality variance look like across Custom Model adapters trained on different asset sets? Is there a quality floor for adapter approval?
-
----
-
 *Bharat Namatherdhala · May 2026*
