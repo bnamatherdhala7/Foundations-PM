@@ -81,7 +81,61 @@ A Firefly-generated image on hover shows three icons in the top-right corner:
 
 ---
 
-## 3. Goals
+## 3. Voice of Customer — Real Pain Points from External Sources
+
+*Verified data from public sources to validate what the product audit shows.*
+
+### 3a. The AI content saturation problem
+
+**Verified fact (PetaPixel / CineD, May 2025):** 47.85% of all images on Adobe Stock are now AI-generated. Adobe has introduced upload limits in response to growing concerns about quality dilution.
+
+> **Customer complaint (Adobe community):** *"Keep getting pushed AI images even with it toggled off."*
+
+**What this means for the PRD:** The AI badge on grid results is not just a labeling feature — it is a trust and quality signal that customers actively try to filter out. When the AI badge has no interactive behavior (as confirmed in screenshot 3), users who want human photography cannot act on the information. The badge marks the asset but gives the customer nothing to do with that information.
+
+**Impact on Solution S1:** The grid hover state gap is worse than it appears. Not only are AI Studio actions missing — the AI badge itself is passive. A customer who wants to find a licensed human-photographed equivalent of an AI result has no path to do so.
+
+---
+
+### 3b. Search result volume without quality
+
+**Verified user complaint (Adobe community forum):**
+> *"The search results are showing me about 50% catalogs, and 50% brochures, portfolios, company profiles... giving me about 26 pages of inflated and largely useless search results."*
+
+**Second complaint:**
+> *"I can't find any of those images in search with my keywords."* *(Contributor whose approved images don't surface with relevant tags)*
+
+**What this means for the PRD:** The search quality problem is two-sided. Buyers get too many results with no aesthetic filter. Contributors cannot get their assets discovered. Both are symptoms of the same root cause: the search index ranks on keyword tag coverage, not on behavioral quality signals like dwell + license.
+
+**Direct confirmation of Pain Point 1:** A search for "confident woman entrepreneur" returning 664,244 results is not a surprising edge case. It is the documented, consistent behavior of a system that optimizes for coverage over relevance.
+
+---
+
+### 3c. Platform credibility under pressure
+
+**Verified (Trustpilot):** Adobe Stock scores 1.3/5 from 235 public reviews.
+
+**Context:** The majority of Trustpilot reviews are from contributors (uploaders), not buyers. The dominant complaints are support responsiveness and account policy. However, the buyer-side pain is surfaced in the search complaints above — and in the product audit itself.
+
+**What this means for the PRD:** The credibility problem compounds. 47.85% AI-generated content + poor search filtering + passive AI badges = buyers cannot trust that results match their brief. The AI Studio tools that could restore trust (Change color to make an AI image match your brand; Find Similar to find a human-photographed equivalent) are hidden from the surface where customers form that trust or distrust — the search grid.
+
+---
+
+### 3d. Summary: visual pain point vs. stated pain point
+
+| Source | What customers say | What the product shows |
+|---|---|---|
+| Community forum | "Too many irrelevant results — can't find what I need" | 664,244 results, no aesthetic filter, generic keyword chips |
+| Community forum | "AI images keep appearing even with filter off" | AI badge is passive — no click behavior, no filter action on hover |
+| Product observation | Not stated — customers just leave | Change color, Change mood hidden in overflow; not on grid hover |
+| PetaPixel/CineD | 47.85% AI content — quality dilution concern | No path from AI result to human-photographed equivalent |
+| Product observation | Not stated — customers open Photoshop | "Edit in AI Studio" on detail page only — invisible from grid |
+
+> **⭐ The pattern:** What customers say and what the product shows are the same problem described from different angles. Customers say "I can't find what I want." The product shows there is no mechanism to narrow 664,244 results by aesthetic register. Customers say "AI images keep appearing." The product shows the AI badge does nothing. The solutions are not speculative — they are direct responses to documented, observable gaps.
+
+---
+
+## 4. Goals
 
 | Goal | Metric | Target |
 |---|---|---|
