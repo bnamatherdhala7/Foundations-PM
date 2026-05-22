@@ -41,6 +41,36 @@ This moment — between generation and license confirmation — is where buyer t
 
 ---
 
+## Customer Evidence
+
+*Verified verbatim quotes from Adobe Stock community forums and public sources.*
+
+**On search quality returning irrelevant results:**
+> "When searching for specific images with clearly defined keywords, I often receive results that are completely unrelated to my search terms." — francescos11749902, [Adobe Stock Community](https://community.adobe.com/questions-32/consistently-irrelevant-search-results-on-adobe-stock-1496377), April 2024
+
+> "The last couple of months I have found this too and am considering changing to another image library." — Medi-Rent, [Adobe Stock Community](https://community.adobe.com/questions-32/consistently-irrelevant-search-results-on-adobe-stock-1496377), April 2025
+
+**On AI image saturation bleeding through filters:**
+> "even with the filter, I still mostly get AI-generated illustrations/vectors" — CRISTINA247492529w6i, [Adobe Stock Community](https://community.adobe.com/t5/stock-discussions/images-are-overwhelmingly-ai-generated/m-p/15563401), March 2026
+
+> "It's becoming more and more impossible to work with Adobe stock for editorial purpose" — Coralie5F9B, [Adobe Stock Community](https://community.adobe.com/feature-requests-33/adobe-stock-is-no-longer-fit-for-professional-use-due-to-the-proliferation-of-generative-ai-1463141), February 2026
+
+> "out of the ten I'd downloaded...upon closer inspection at least 3 were gen AI. The responsibility shouldn't fall upon the user to police this, it should fall upon Adobe." — Al Yonder, [Adobe Stock Community](https://community.adobe.com/feature-requests-33/adobe-stock-is-no-longer-fit-for-professional-use-due-to-the-proliferation-of-generative-ai-1463141), October 2025
+
+**On enterprise legal hesitation:**
+> "A lot of our very big enterprise customers are very concerned about using generative AI without understanding how it was trained." — Scott Belsky, Adobe CSO, [Fast Company](https://www.fastcompany.com/90906560/adobe-feels-so-confident-its-firefly-generative-ai-wont-breach-copyright-itll-cover-your-legal-bills), 2023
+
+**On losing previously found assets:**
+> "a few months ago they all got removed and we had to start from scratch...No in order to find an image we previously licensed, I have to look in license history." — Patrick Leckie, [Adobe Stock Community](https://community.adobe.com/t5/stock-discussions/complaint-with-using-adobe-stock/td-p/13677405), March 2023
+
+**Scale of the AI content problem:**
+47.85% of all Adobe Stock images are now AI-generated — 29M+ new AI images added per month in Q1 2025. Adobe has introduced upload limits in response. Source: [CineD](https://www.cined.com/ai-flood-on-adobe-stock-nearly-half-of-all-images-now-ai-generated/) / [PetaPixel](https://petapixel.com/2025/05/22/almost-half-of-the-images-on-adobe-stock-are-ai-generated/), May 2025.
+
+**Competitive context:**
+Shutterstock and Getty Images completed a merger in June 2025 (~82% of Shutterstock shareholders approved). Adobe Stock now faces a single combined competitor with the largest traditional library in the market. Adobe's differentiation — Firefly generation *plus* a licensed library — becomes more critical, not less.
+
+---
+
 ## Key Problems Identified
 
 **Grid Abandonment**: Users see thumbnails and decide within seconds. Current hover state shows only favorite, compare, and overflow menu — no AI actions. A user thinking "perfect composition, wrong color" has no path forward and abandons the asset.
@@ -201,6 +231,16 @@ This captures whether the workflow actually *worked* — not just whether users 
 ## Critical Dependency
 
 **Dwell + license event tracking must ship first.** Without this signal, semantic search retraining, aesthetic reranking, and all Tier 3 agentic logic cannot proceed. This is the zero-blocker — instrument it in parallel with Tier 1 surface work.
+
+---
+
+## The Competitive Moat
+
+**"Find licensed similar" from a Firefly-generated image is the only workflow in the AI image generation market that no competitor can replicate.**
+
+Midjourney has generation — but no licensed library. Getty (now merged with Shutterstock) has a library — but no generation model. Only Adobe owns both. This means only Adobe can build the bridge from *"I generated something I love"* to *"here is the licensed equivalent cleared for commercial use."* Every other player has to pick one side of that bridge.
+
+This is not a roadmap item. The underlying capability already exists — Firefly embeddings on the generation side, the Stock visual similarity index on the library side. The product decision is to connect them.
 
 ---
 
