@@ -324,17 +324,44 @@ This is the most underused bucket. The open research community publishes benchma
 
 #### Human Preference Datasets (for DPO / RLHF fine-tuning)
 
-These are the most directly useful: real pairwise preference rankings on generated images, published by researchers.
+**What RLHF and DPO are — and which one to use:**
 
-| Dataset | What it contains | Firefly application |
-|---|---|---|
-| **Pick-a-Pic v2** (HuggingFace: `yuvalkirstain/pickapic_v2`) | 851k human pairwise preferences on text-to-image generations | Direct DPO training signal — fine-tune Firefly to prefer what humans prefer |
-| **HPD v2 — Human Preference Dataset** | 798k human preference annotations on image generations | Aesthetic preference signal; combined with Pick-a-Pic for scale |
-| **ImageReward** (Xu et al., 2023) | 137k text-image pairs with human preference + text-image alignment scores | Both preference and alignment signal in one dataset |
-| **HPS v2 — Human Preference Score** | Trained on 798k preferences; released as model + dataset | Preference reward model — use as automated quality signal in Layer 1 eval |
-| **ELO-ranked arena data** (Artificial Analysis, LMSYS methodology) | Pairwise model comparison results — published leaderboard data | Benchmark anchor for Firefly's position; track movement per training run |
+Both techniques solve the same problem: standard model training teaches a model to generate *plausible* outputs. RLHF and DPO teach it to generate outputs *humans actually prefer*. Those are different objectives — a model can generate technically correct images that nobody chooses over a competitor's. Firefly's ELO gap is a human preference gap. The only training signal that closes it is human preference data.
 
-> **Why this matters for Firefly specifically:** Pick-a-Pic v2 + HPD v2 together = 1.6M preference pairs. Running DPO on Firefly with this signal closes the aesthetic preference gap without generating a single new piece of data. These datasets were built explicitly for this purpose and are free to use.
+| Technique | Full form | How it works | Limitation |
+|---|---|---|---|
+| **RLHF** | Reinforcement Learning from Human Feedback | Step 1: train a separate reward model on preference pairs. Step 2: use RL (PPO) to optimize the image model against that reward model. | Two-stage pipeline — more moving parts, reward model can be gamed ("reward hacking"), training can be unstable |
+| **DPO** | Direct Preference Optimization | Skip the reward model entirely. Show the model preference pairs (winner + loser for the same prompt) and train it to produce more winners, fewer losers — in a single training run. | Requires clean, high-quality preference pairs; sensitive to noisy labels |
+
+**Which is preferred for Firefly: DPO.**
+
+DPO is now the standard for text-to-image fine-tuning. Wallace et al. (2023) — *"Diffusion Model Alignment Using Direct Preference Optimization"* — proved DPO works directly on diffusion models using Pick-a-Pic data. Single training run, no reward model, more stable than RL. The open-source datasets below were built specifically to enable DPO on image generation models.
+
+```
+How a DPO training pair works:
+
+Prompt: "sunset over mountains, dramatic lighting"
+
+Output A  →  human chose this (winner)
+Output B  →  human rejected this (loser)
+
+DPO loss: increase P(A | prompt), decrease P(B | prompt)
+
+The model learns the delta between good and bad
+without explicit rules about what "good" means.
+```
+
+These are the most directly useful datasets: real pairwise preference rankings on generated images, published by researchers and free to use.
+
+| Dataset | Full form | What it contains | Firefly application |
+|---|---|---|---|
+| **Pick-a-Pic v2** (`yuvalkirstain/pickapic_v2` on HuggingFace) | — | 851k human pairwise preferences on text-to-image generations | Primary DPO training signal — built for this exact use case |
+| **HPD v2** | Human Preference Dataset v2 | 798k human preference annotations on image generations | Aesthetic preference signal; combined with Pick-a-Pic = 1.6M pairs |
+| **ImageReward** (Xu et al., 2023) | — | 137k text-image pairs with preference + alignment scores | Both preference signal and prompt-adherence alignment in one dataset |
+| **HPS v2** | Human Preference Score v2 | Reward model trained on 798k preferences; model + dataset released | Use as automated preference signal in Layer 1 eval pipeline — no rater needed |
+| **ELO-ranked arena data** (Artificial Analysis) | — | Pairwise model comparison results — published leaderboard | Benchmark anchor; track Firefly ELO movement per training run |
+
+> **Why this matters for Firefly:** Pick-a-Pic v2 + HPD v2 = 1.6M human preference pairs at zero data cost. Running DPO on Firefly with this signal closes the aesthetic preference gap without generating a single new image. These datasets were built explicitly for this purpose. The only cost is compute for the training run.
 
 #### Image Quality + Aesthetic Datasets
 
