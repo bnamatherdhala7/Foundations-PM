@@ -5,6 +5,18 @@ The through-line: you build AI systems end-to-end, not just use them.*
 
 ---
 
+## The actual JD (key phrases to echo back)
+
+- "Help customers find the content they need **faster and easier than before**"
+- "Evaluate and bring existing generative capabilities to AI Studio"
+- "Influence cross-Adobe teams to build what our customers need when it doesn't yet exist"
+- "Data driven" + "customer centric" + "build, learn, and iterate"
+- "Thrive in ambiguity" + "systems thinking"
+- "Communicate and evangelize, persuading from executive level to peers"
+- "Balance customer value delivered for the engineering investment"
+
+---
+
 ## Role in one sentence
 
 Bring existing Adobe generative capabilities into AI Studio so that Stock customers find the right content faster — by building intelligent discovery, semantic search, and prompt-to-asset pipelines that sit at the intersection of Firefly generation and Stock's 300M+ asset library.
@@ -175,17 +187,114 @@ Note where results feel right, where they feel generic, where Firefly integratio
 
 ---
 
+---
+
+## Part 6: Key Customer Problems — AI Studio GenAI Workflows
+
+*This is your "Day 1 perspective" material. Walk in with these problems named, sized, and with a hypothesis on the fix. These are grounded in real user behavior patterns, social intel, and the specific tools Adobe Stock has already shipped (like the Change Color tool at ai-studio/images/change-color).*
+
+---
+
+### Problem 1 — "I found a great asset but it's the wrong color for my brand"
+
+**The behavior:** A marketer finds a Stock photo that is compositionally perfect for their campaign — but the product is red and their brand is blue. Today: download, open Photoshop, manually mask and recolor, export, re-upload. 45+ minutes.
+
+**Why AI Studio's Change Color tool is the right call** — but why it's not enough yet:
+The tool exists. The problem is discoverability and workflow integration. Users don't know it's there because it's not surfaced in the search results flow — you have to navigate to it separately. The fix isn't a better color-change model; it's **surfacing the tool at the moment of search abandonment** — when a user views an asset for 8+ seconds and doesn't add to cart, surface an inline prompt: "Wrong color? Change it with AI." That converts a lost session into a purchase.
+
+**The metric to track:** Color-change tool usage rate among users who dwell on an asset ≥ 8 seconds but don't download. This is the "almost worked" signal. If 40% of those users would use a color-change prompt, that's a direct revenue recovery number you can put in front of a VP.
+
+**Cross-team dependency:** Stock engineering (surface the tool inline), Firefly (the color model), Design (the UI trigger pattern).
+
+---
+
+### Problem 2 — "Keyword search returns technically correct results that are creatively wrong"
+
+**The behavior:** An enterprise brand manager searches "confident professional woman technology." Gets 5,000 results — all technically accurate, none of them feeling like the brief. The brief wants "warm, editorial, feels like a Fast Company cover." Keyword search has no way to understand that.
+
+**The GenAI fix:** Semantic search trained on creative brief language, not just object labels. The key technical requirement: the embedding model must capture *aesthetic intent* (editorial vs. commercial, warm vs. clinical, candid vs. staged) not just subject matter. CLIP Score alone doesn't get there — the model has to be fine-tuned on creative brief language patterns.
+
+**Why this is a GenAI feature, not a search feature:** The signal you train on is not downloads (which reflects what was available) but **dwell + download** pairs — users who looked at an asset for a while and then bought it. That dwell signal encodes "this felt right" in a way that download-only data misses. This is where your merchandising background lands directly: you've built on this signal for Adobe.com conversion.
+
+**The metric:** Search-to-license conversion rate for semantic query types vs. keyword queries. Hypothesis: semantic queries with the new model convert at 2× the rate of keyword queries because they're capturing intent, not just vocabulary.
+
+---
+
+### Problem 3 — "I can't find 10 coherent variations of a concept for campaign A/B testing"
+
+**The behavior:** A digital campaign team needs 5 visual directions for a hero image to A/B test. Each direction requires a separate search, separate filtering, separate evaluation session. An hour of search work before they've made a single creative decision.
+
+**The GenAI fix:** One prompt → clustered variation set. Enter "confident professional woman technology editorial warm" → AI Studio returns 5 conceptually distinct visual directions, each with 3–5 representative assets. Not 50 variations of the same composition — 5 genuinely different takes, each coherent as a direction.
+
+**The StoryForge parallel — use this in the answer:**
+> "This is exactly the problem StoryForge solved for video creators. The insight there was that people weren't blocked by creativity — they were blocked by production throughput. One good concept took 3 hours to produce, so they couldn't test multiple angles. I solved it by moving from one-at-a-time generation to a variation engine: one input → 10 strategically differentiated outputs. AI Studio needs the same architecture for image discovery: one brief → 5 curated visual directions, immediately comparable."
+
+**The metric:** Number of asset variations viewed per session (current vs. post-feature), and downstream A/B test launch rate among enterprise plan users.
+
+---
+
+### Problem 4 — "I generated the right look in Firefly but need a licensed version for the campaign"
+
+**The behavior:** A designer uses Firefly to explore visual directions and generates an image that captures exactly the right look. But for the actual campaign — which will run in paid media — they need an IP-indemnified licensed asset, not a Firefly generation. Today: they switch to Stock and start a completely separate search. The Firefly output that encoded their intent is disconnected from the Stock discovery experience.
+
+**The GenAI fix:** "Find similar licensed assets" as a native Firefly output action. After generating an image in Firefly, one click surfaces Stock assets that match the visual direction — same color temperature, similar composition, matching style register — with full licensing. This is the handoff no competitor can replicate because you need to own both Firefly (the generation) and Stock (the licensed asset library) to build it.
+
+**The business case:** This is a direct revenue bridge between Firefly subscribers and Stock subscribers. A Firefly user who clicks "find similar in Stock" is a high-intent Stock prospect — they've already made the creative decision, they just need the licensed version. Conversion rate from this flow should be 3–5× higher than cold Stock search.
+
+**Cross-team dependency:** Firefly (the generation model and visual embedding), Stock (the search index), Licensing (entitlement for the handoff flow). This is the "influence cross-Adobe teams" problem the JD describes explicitly.
+
+---
+
+### Problem 5 — "Video b-roll search is keyword-trapped"
+
+**The behavior:** A video editor searching for b-roll types "woman working laptop coffee shop natural light morning." Gets generic results. What they actually need is a clip with: warm color grade, shallow depth of field, subject facing away or 3/4 profile, ambient movement in background, 5–15 seconds. None of those requirements survive keyword search. They spend 40 minutes browsing before finding something usable.
+
+**The GenAI fix:** Video semantic search with temporal awareness. The embedding model must understand not just what's in the frame but the *quality of motion* — is it a static shot or does it have natural camera movement? Is the pacing slow and editorial or fast and energetic? These are temporal properties that require video-native embeddings, not image embeddings applied to keyframes.
+
+**The VBench connection:** VBench's 16 dimensions — motion smoothness, subject consistency, spatial relationships — are exactly the dimensions a video semantic search index needs to encode. The research work for Firefly video evaluation and the stock video search index are the same problem from different directions. Use this to show systems thinking.
+
+**The metric:** Time-to-license for video vs. image. Hypothesis: video time-to-license is 3–4× longer than image today because of keyword-trapped search. If AI Studio brings video discovery to image parity, that's a measurable revenue impact on video subscription plans.
+
+---
+
+### Problem 6 — "I need to customize Stock assets for my brand but can't do it at scale"
+
+**The behavior:** An enterprise marketing team licenses 50 Stock images for a campaign. They need every image color-graded to match their brand palette, resized for 6 different formats, and watermark-stripped (replaced with their logo). Today: a production designer does this manually for each of 50 assets. Two days of work.
+
+**The GenAI fix:** Batch AI transformation workflows in AI Studio. Select 50 assets → apply: brand color profile (via Custom Models or a style reference upload), export for 6 formats simultaneously, apply brand overlay layer. Output: 300 campaign-ready assets in 20 minutes instead of 2 days.
+
+**Why this is the right scope for a Principal PM:** This isn't one feature, it's a workflow. It requires the Change Color model, the batch processing infrastructure, the Custom Models API from Firefly, and the export pipeline from Stock. The PM who owns this has to influence Firefly (Custom Models), Stock engineering (batch pipeline), and AEM (the downstream delivery system). That's the "influence cross-Adobe teams to build what customers need when it doesn't yet exist" problem verbatim.
+
+**The enterprise revenue case:** Enterprise plans are the highest-value segment. A workflow that turns 2 days of production work into 20 minutes is a direct ROI argument for upgrading from mid-market to enterprise. This is a feature that justifies price, not just improves satisfaction.
+
+---
+
+### The one-slide version (for when they ask "what would you focus on first?")
+
+> "Based on what I know about AI Studio today and the customer behavior patterns in the social intel data, I'd focus first on Problem 1 and Problem 4 in parallel — because they're both revenue-recovery plays on intent that already exists.
+
+> Problem 1: the user who dwells on an asset and doesn't buy is already at the decision point. Surfacing the Change Color tool inline at that moment converts a lost session into a purchase. It's a 30-day experiment with a directly measurable revenue signal.
+
+> Problem 4: the Firefly user who generates their ideal look is the highest-intent Stock prospect Adobe has — they've already made the creative decision. Building the 'find similar licensed assets' bridge is the highest-leverage cross-team project in the AI Studio roadmap because it creates a closed loop between Firefly and Stock that no competitor can replicate.
+
+> I'd validate Problem 1 with a 30-day A/B test and Problem 4 with a 60-day discovery sprint with the Firefly and Stock engineering teams. Both have clear metrics, both are grounded in existing user behavior, and both move revenue — not just engagement."
+
+---
+
 ## Quick Reference: Numbers and Facts for This Role
 
 | Fact | Value |
 |---|---|
 | Adobe Stock library | 300M+ licensed assets |
 | Firefly enterprise differentiator | IP indemnification — legally safe for commercial campaigns |
-| StoryForge Posted Video Rate target | ≥ 60% (the outcome metric, not the speed metric) |
+| Stock AI Studio Change Color | Exists at ai-studio/images/change-color — discoverability is the gap, not the model |
+| User abandonment signal | Dwell ≥ 8 sec + no download = "almost worked" — highest-value prompt insertion point |
+| StoryForge Posted Video Rate target | ≥ 60% (outcome metric — did they use the output?) |
 | Vigil MTTR | 47 min → 35 sec (systems thinking proof point) |
 | CI pipeline cost | $0.003 / report (data-driven decisioning proof point) |
 | GSentinel auto-fix rate | 67% (deterministic workflow reliability proof point) |
-| MailIntel agents | 5 (Signal Analyst, Orchestrator, Strategist, Activation, Critic) |
-| Stil Feed Cohesion Score | Deterministic pixel math — no model inference, curation-quality signal |
 | Competitive moat for Stock | Stock depth × Firefly generation × AI curation — no standalone competitor has all three |
 | Pro latency threshold | 2–3 sec before users abandon and revert to keyword search |
+| Video time-to-license vs. image | Hypothesis: 3–4× longer due to keyword-trapped search — AI Studio opportunity |
+| Batch workflow enterprise ROI | 2 days of production work → 20 minutes with batch AI transformation |
+| Firefly-to-Stock handoff conversion | Hypothesis: 3–5× higher than cold Stock search (intent already established) |
