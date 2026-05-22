@@ -148,7 +148,7 @@ This is not a PM studying for an interview. This is the PM who launched the prod
 | **Firefly ELO** | 971 in arena (Image 3 baseline; Image 5 current, released Oct 2025) |
 | **GPT Image 2 ELO** | 1339 — 368-point gap |
 | **Midjourney ELO** | 1093 — 122-point gap |
-| **Image editing** | Firefly not in top 5; GPT Image 1.5 leads at 1264 |
+| **Image editing** | Firefly not in top 5; GPT Image 2 leads at ELO 1253, Gemini 3.1 Flash at 1236 |
 | **Text rendering** | <45% on Image 3; improved in Image 5; not at Ideogram parity |
 | **Ship gate** | Human preference rate ≥ 75%; below 60% = coin flip |
 | **Latency threshold** | Sub-2-second Generative Fill — above this, professionals abandon |

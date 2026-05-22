@@ -17,7 +17,7 @@
 
 4. **The LoRA opportunity is underexploited.** Brand customization via LoRA adapters on the Firefly foundation is 10–100× cheaper than retraining. Custom Models is already this pattern. The gap is user education on training asset quality, not model capability.
 
-5. **Adobe's moat is the combination, not any single piece.** IP indemnification + CC workflow integration + Custom Models + commercially safe training data. No competitor has all four. The window to build distance between Firefly and challengers is open now — Midjourney is in litigation, DALL-E 3 is locked inside ChatGPT, Imagen is enterprise-only. This is the moment to set the quality and eval bar that defines the category.
+5. **Adobe's moat is the combination, not any single piece.** IP indemnification + CC workflow integration + Custom Models + commercially safe training data. No competitor has all four. The window to build distance between Firefly and challengers is open now — Midjourney is in active litigation, GPT Image 2 is locked inside ChatGPT with no CC integration, Imagen is enterprise-only. This is the moment to set the quality and eval bar that defines the category.
 
 ---
 
@@ -212,7 +212,7 @@ FLUX.1-dev leads with 12.9k likes and 716k downloads — the de facto open-weigh
 | **Aesthetic quality / artistic style** | Below Midjourney | Midjourney v7 (ELO 1093) | −122 ELO — training data curation |
 | **Text rendering in image** | Improved in Image 5; <45% on Image 3 baseline | Ideogram 3.0 | LoRA gap, not foundation model — 90-day fix |
 | **Prompt adherence / compositional accuracy** | Improved in Image 5 | FLUX Pro 1.1, GPT Image 2 | Object count, spatial relationships, color fidelity |
-| **Image editing quality** | Not in top 5 | GPT Image 1.5 (ELO 1264) | **Highest urgency** — AI Studio is Firefly's product differentiator |
+| **Image editing quality** | Not in top 5 | GPT Image 2 (ELO 1253 editing) | **Highest urgency** — AI Studio is Firefly's product differentiator |
 | **Commercial safety** | Best-in-class | — | Only model with full IP indemnification and licensed training data |
 | **CC workflow integration** | Best-in-class | — | Lives in Photoshop, Express, GenStudio — no competitor matches |
 
@@ -221,7 +221,7 @@ FLUX.1-dev leads with 12.9k likes and 716k downloads — the de facto open-weigh
 | Competitor | Strength | Limitation | Firefly's actual advantage |
 |---|---|---|---|
 | **GPT Image 2** (ELO 1339) | Highest quality; ChatGPT distribution | Locked in OpenAI ecosystem; no design tool integration; no brand customization | Firefly is where creatives work — Photoshop, Premiere, GenStudio |
-| **Midjourney v7** (ELO 1093) | Best aesthetic quality; 20M+ community | Active Getty litigation; no IP indemnification; no CC integration; closed API | Enterprise cannot use Midjourney — legal exposure is real |
+| **Midjourney v7** (ELO 1093) | Best aesthetic quality; 20M+ community | Active class-action litigation (Andersen et al.); no IP indemnification; no CC integration; closed API | Enterprise cannot use Midjourney — legal exposure is real |
 | **FLUX.1-dev** (12.9k HuggingFace likes) | Open-weight; LoRA fine-tuning under $2; developer ecosystem | No commercial safety guarantee; no enterprise support; requires MLOps | Firefly is turnkey — no infrastructure burden |
 | **Imagen 4 (Google)** | Strong quality; cost-efficient ($0.02/image) | Enterprise-only; no creative tool integration; no consumer surface | Firefly reaches all three segments in one platform |
 | **Sora / Runway / Kling (video)** | Strong video generation quality | No CC integration; no brand lock; no IP indemnification | Firefly Video integrates into Premiere and Frame.io |
@@ -238,7 +238,7 @@ The 368-point ELO gap to GPT Image 2 is not a single problem — it is three sep
 
 ### The three gaps to close, in priority order
 
-1. **Image editing quality** — Firefly not in top 5 on editing arena (GPT Image 1.5 leads at ELO 1264). AI Studio is Firefly's product differentiator. This gap makes the differentiator undefended.
+1. **Image editing quality** — Firefly not in top 5 on editing arena (GPT Image 2 leads at ELO 1253, Gemini 3.1 Flash at 1236). AI Studio is Firefly's product differentiator. This gap makes the differentiator undefended.
 2. **Text rendering** — <45% accuracy on Image 3 baseline; improved but not at parity in Image 5. Text in designs (logos, social graphics, presentations) is a core creative use case. Ideogram 3.0 specializes here. This is a LoRA problem, not a foundation model problem.
 3. **Aesthetic quality ceiling** — 122-point ELO gap to Midjourney. This is a training data curation and human preference feedback problem. Longer to close, but the feedback loop architecture is the lever.
 
@@ -355,7 +355,6 @@ These are the most directly useful: real pairwise preference rankings on generat
 | **TextVQA** | 45k VQA pairs about text in images | Text recognition accuracy evaluation |
 | **AnyText-benchmark** | Evaluation benchmark for text generation in images | Standard regression metric for text rendering accuracy |
 | **LAION-OCR** (LAION subset) | Images containing readable text, filtered from LAION | Pre-training signal for text in scene understanding |
-| **Emu Edit research data** (Adobe Research published) | Multi-task image editing pairs | Adobe's own research — Emu Edit paper released evaluation data |
 
 #### Image Editing Datasets (closes the #1 priority gap — not in top 5 on editing arena)
 
@@ -363,17 +362,17 @@ These are the most directly useful: real pairwise preference rankings on generat
 |---|---|---|
 | **InstructPix2Pix** (Brooks et al., UC Berkeley) | 310k instruction-based editing pairs | Synthetic but directly useful for instruction-following fine-tuning |
 | **MagicBrush** | 10k real human-annotated editing instruction pairs | Highest quality editing pairs available — human-verified |
+| **Emu Edit** (Adobe Research, published openly) | Multi-task image editing pairs with structured task taxonomy | Adobe's own research — if not already in Firefly's editing pipeline, that is a gap |
 | **HIVE** (Human Instruction-driven Image Editing) | Multi-modal editing benchmark | Evaluation standard for editing quality |
 | **EditBench** | 240 structured editing scenarios | Targeted regression for specific edit types |
-
-> **Emu Edit is Adobe's own research published openly.** The evaluation methodology and dataset from Adobe Research's Emu Edit paper is available. If it is not already part of Firefly's editing fine-tune pipeline, that is a gap.
 
 #### Open-Weight Models (for distillation and architecture signal)
 
 | Model | License | What to extract |
 |---|---|---|
-| **FLUX.1-schnell** (Black Forest Labs) | Apache 2.0 — commercial use allowed | Architecture patterns, fast inference approach; strongest open-weight model |
-| **FLUX.1-dev** | Non-commercial research | Use for output distillation (generate synthetic pairs with Adobe prompts); read community LoRA training research |
+| **FLUX.1-schnell** (Black Forest Labs) | Apache 2.0 — commercial use allowed | Best commercially-licensed open-weight model; distill into Express-tier model |
+| **FLUX.2 dev Turbo** | Open weights | ELO 1160 — now leads open-weight arena; architecture and training methodology published |
+| **FLUX.1-dev** | Non-commercial research | Generate synthetic pairs with Adobe-authored prompts; read community LoRA training research |
 | **Stable Diffusion 3.5 Large** (Stability AI) | Open weights | MMDiT architecture research; SD3.5 papers publish training methodology details |
 | **PixArt-Sigma** | Open weights | 4K resolution architecture; low-resource high-quality training approach |
 | **AuraFlow v0.3** | Open weights | Competitive quality; training methodology published |
@@ -419,24 +418,6 @@ When owned data runs out and open data has been used, the remaining signal comes
 
 ---
 
-### Consolidated Priority Table — All Three Buckets
-
-| Priority | Bucket | Action | Timeline | Cost | Expected impact |
-|---|---|---|---|---|---|
-| **1** | A — Adobe-owned | Adobe Fonts → text rendering LoRA | 60 days | Low | +20–30 pts text accuracy |
-| **2** | B — Open source | Pick-a-Pic v2 + HPD v2 → DPO fine-tune | 60 days | Very low — data is free | Aesthetic preference lift |
-| **3** | B — Open source | MagicBrush + InstructPix2Pix → editing LoRA | 90 days | Very low | Editing arena entry |
-| **4** | C — Synthetic | Counterfactual degradation pipeline | 45 days | Very low — automated | Hard negative coverage |
-| **5** | A — Adobe-owned | DPO on Stock (contracted rater sessions) | 90 days | Medium | Quality ceiling lift |
-| **6** | B — Open source | DALL-E 3 recaptioning methodology on Stock | 90 days | Medium — compute | Prompt adherence lift |
-| **7** | C — Behavioral | Opt-in behavioral signal pipeline | 90 days | Medium — eng infra | Ongoing reward signal |
-| **8** | B — Open-weight | FLUX.1-schnell distillation → Express model | 120 days | Medium | Latency + Express quality |
-| **9** | A — Adobe-owned | Stock contributor Tier 1 consent program | 6 months | High | Long-term quality ceiling |
-
-> ⭐ **The Foundations PM framing:** Three buckets. Adobe-owned data is the moat — it differentiates. Open source data is free signal that most teams don't fully exploit. Synthetic and behavioral data compounds over time. The right answer to "how do you improve quality without customer data" is not one strategy — it is a layered program across all three buckets running in parallel.
-
----
-
 ## 8. Success Metrics
 
 | Metric | Target | JD alignment |
@@ -452,8 +433,6 @@ When owned data runs out and open data has been used, the remaining signal comes
 ---
 
 ## 9. Open Questions for the Interview
-
-
 
 1. **Eval contract:** Is there a documented quality threshold per surface (Express vs. Photoshop vs. GenStudio)? Who currently makes the ship/no-ship call when thresholds are not defined?
 
