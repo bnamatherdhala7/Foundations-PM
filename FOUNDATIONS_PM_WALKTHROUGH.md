@@ -293,41 +293,7 @@ The 368-point ELO gap to GPT Image 2 is not a single problem — it is three sep
 
 ---
 
-## 7. Evidence: What I've Built
-
-### Stil — Feed Cohesion Score
-**JD alignment:** Scalable evaluation frameworks, quality measurement, experience with generative imaging
-
-Built a 0–100 image quality consistency system for content creators using deterministic pixel math — color temperature, brightness, contrast, saturation variance. No model, no API cost, sub-second at scale. The design principle: pixel math is faster, cheaper, and more interpretable than a learned quality metric. You add a model only where pixel math can't reach.
-
-**Direct Firefly application:** Measures style consistency across a generation batch. Does a set of Firefly outputs from the same prompt hold tonal range across seeds? Does a Custom Model produce brand-consistent outputs across 50 generations? Same math, different input set.
-
----
-
-### Vigil + GSentinel — Agentic architecture in production
-**JD alignment:** Technical depth, agentic workflow design, operating in research environments
-
-Five multi-agent systems shipped. Consistent finding: FSM orchestration beats LLM orchestration for well-defined workflows — full audit trail, predictable behavior, no hallucinated state transitions. In Vigil, RAG-first retrieval cut hallucinated queries by routing known patterns through retrieval before generation. MTTR: 47 min → 35 sec. GSentinel auto-resolved 67% of incidents.
-
-**Firefly application:** Heuristics and retrieval carry the load until they can't. Then pay for inference. Keep orchestration costs predictable at production scale.
-
----
-
-### Content Trust Agent — C2PA + SynthID
-**JD alignment:** Competitive landscape, platform integration, evidence-based decisions
-
-Designed a provenance detection pipeline for Adobe Stock using C2PA manifest reading + Google SynthID detection at submission intake — bypassing contributor self-declaration. Meta does the same via IPTC Digital Source Type. Adobe co-founded C2PA; every Firefly output already carries a Content Credential. The gap is the engineering connection between Firefly's generation layer and the platform's intake and library systems.
-
----
-
-### CI Competitive Intelligence Pipeline
-**JD alignment:** Competitive landscape analysis, cost-aware product decisions
-
-Automated competitive analysis system for Firefly positioning. Runs at $0.003 per report. Key finding: "commercially safe AI image generator" keyword cluster is factually Firefly's — and Firefly doesn't appear in it. That's a 90-day organic acquisition win requiring a CMS change and three landing pages, not an engineering project.
-
----
-
-## 8. Data Strategy — Improving Firefly Without Customer Data
+## 7. Data Strategy — Improving Firefly Without Customer Data
 
 Adobe's trust position is explicit: Firefly is trained only on licensed, owned, and public domain content — not customer creative work. This is the enterprise moat. It is also the hardest constraint in the data strategy.
 
@@ -471,7 +437,7 @@ When owned data runs out and open data has been used, the remaining signal comes
 
 ---
 
-## 9. Success Metrics
+## 8. Success Metrics
 
 | Metric | Target | JD alignment |
 |---|---|---|
@@ -485,7 +451,7 @@ When owned data runs out and open data has been used, the remaining signal comes
 
 ---
 
-## 10. Open Questions for the Interview
+## 9. Open Questions for the Interview
 
 
 
