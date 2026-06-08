@@ -35,6 +35,57 @@ Directors test whether you instinctively close the loop — or leave it open-end
 
 ---
 
+## Glossary — Every Acronym Defined
+
+Know these cold. If the director uses one and you look uncertain, it signals the gap immediately.
+
+### Model Evaluation Metrics
+
+| Acronym | Full Form | What It Measures | What It Misses |
+|---|---|---|---|
+| **FID** | Fréchet Inception Distance | Statistical distance between the feature distributions of real vs. generated images (lower = more realistic). Uses an Inception network to extract features, then computes distance between Gaussian distributions. | User preference. A model can have excellent FID and still produce images users reject. Style coherence, composition, and "looks generated" artifacts are invisible to FID. |
+| **CLIP Score** | Contrastive Language-Image Pre-training Score (OpenAI, 2021) | Semantic alignment between a text prompt and generated image. Measures how well the image "matches" the words. | Composition quality, lighting coherence, fine-grained detail accuracy. A correct-subject image with wrong lighting scores well. |
+| **IS** | Inception Score | Image quality and diversity using a pre-trained Inception network. Measures both sharpness and variety across a generated set. | Has no reference to real images. Easily gamed. Largely superseded by FID. |
+| **DINO** | Self-DIstillation with NO Labels (Meta AI, 2021) | Self-supervised vision transformer that learns strong visual representations without labeled data. Used to measure visual similarity and structural consistency between images. | Not designed as a quality metric — works best for similarity/consistency checks, not absolute quality. |
+| **FVD** | Fréchet Video Distance | Video equivalent of FID. Measures the distribution distance between real and generated video clips using spatiotemporal features. | Temporal coherence at fine grain (flickering, micro-jitter). Subject to the same distributional blind spots as FID. |
+| **SSIM** | Structural Similarity Index Measure | Pixel-level structural similarity between two images — luminance, contrast, and structure. Common in image restoration and super-resolution. | Perceptual quality. SSIM can score poorly on a visually excellent stylized image vs. a blurry but pixel-close reference. |
+| **LPIPS** | Learned Perceptual Image Patch Similarity | Perceptual similarity using deep network features rather than raw pixels. Closer to human perception than SSIM or PSNR. | Semantic accuracy and prompt fidelity. |
+| **PSNR** | Peak Signal-to-Noise Ratio | Signal fidelity metric measuring reconstruction accuracy in decibels. Standard in compression and super-resolution. | Perceptual quality entirely. High PSNR can correspond to blurry or washed-out images that look bad to humans. |
+| **MOS** | Mean Opinion Score | Human-rated quality score, typically 1–5 scale. The gold standard for subjective quality assessment in audio, video, and image. | Scalability. MOS is expensive and slow — not suitable for regression testing. |
+| **ELO** | Named after Arpad Elo (chess rating system, 1960) | Relative ranking system derived from pairwise human preference comparisons. "Which image is better?" repeated at scale builds a ranking. | Absolute quality — ELO tells you relative rank, not whether anything is actually good. |
+| **BLEU** | Bilingual Evaluation Understudy | N-gram overlap metric for text quality, originally designed for machine translation. Used to evaluate text generation accuracy. | Semantic meaning. Two sentences with identical meaning but different words score poorly. |
+| **ROUGE** | Recall-Oriented Understudy for Gisting Evaluation | Recall-focused text overlap metric. Common in summarization tasks. | Coherence, factual accuracy, and style. |
+
+### Human Evaluation Terms
+
+| Term | Definition |
+|---|---|
+| **Aesthetic Score** | Human or model-predicted rating of visual attractiveness. LAION's aesthetic predictor (trained on human ratings) is the common automated proxy. |
+| **Preference Label** | A binary signal from a human (or inferred from user behavior) indicating which of two outputs is preferred. The raw material for ELO rankings and RLHF. |
+| **RLHF** | Reinforcement Learning from Human Feedback — training method where a reward model trained on human preferences guides further model fine-tuning. |
+| **Inter-Annotator Agreement** | Statistical measure of how consistently different human labelers assign the same label to the same data. Cohen's Kappa (2 annotators) and Fleiss' Kappa (3+) are standard measures. A score below 0.6 Kappa usually means the labeling task is too ambiguous to use. |
+| **Cohen's Kappa** | Agreement metric between two annotators corrected for chance agreement. Score of 1.0 = perfect agreement; 0.0 = chance-level; <0 = worse than chance. |
+
+### Data & Architecture Terms
+
+| Acronym | Full Form | Meaning |
+|---|---|---|
+| **LoRA** | Low-Rank Adaptation | Fine-tuning technique that trains only small rank-decomposed weight matrices, not the full model. 10–100× cheaper than full retraining. Firefly Custom Models uses this pattern. |
+| **SLA** | Service Level Agreement | Contracted performance standard — e.g., "labeling turnaround within 48 hours" or "data pipeline uptime ≥ 99.5%." |
+| **CSAM** | Child Sexual Abuse Material | Illegal content category. Every generative AI data pipeline must have CSAM detection as a zero-tolerance filter before any data enters training. |
+| **IP** | Intellectual Property | Legal ownership rights over creative works. In Foundations context: whether training data is licensed, consented, and indemnified. |
+| **ARR** | Annual Recurring Revenue | Revenue recognized on a recurring annual basis. Standard business outcome metric for subscription products. |
+| **OKR** | Objectives and Key Results | Goal-setting framework: Objective = qualitative direction; Key Result = measurable outcome. |
+| **CLIP (model)** | Contrastive Language-Image Pre-training | OpenAI's model trained on 400M image-text pairs to align visual and language representations. Foundation for CLIP Score and many downstream eval tools. |
+| **CC** | Creative Cloud | Adobe's subscription product suite (Photoshop, Illustrator, Premiere, etc.) |
+| **API** | Application Programming Interface | Programmatic access surface. In Firefly context: the Firefly API exposes generative capabilities to third-party developers and enterprise customers. |
+| **MVP** | Minimum Viable Product | Smallest shippable version that delivers core value and generates learning. |
+| **ROI** | Return on Investment | Value generated relative to resources invested. In Foundations: model improvement per dollar of data investment. |
+| **PRD** | Product Requirements Document | Formal specification of a product feature or system's goals, requirements, and success criteria. |
+| **ML** | Machine Learning | Computational methods where models learn patterns from data rather than being explicitly programmed. |
+
+---
+
 ## Part 1 — Core Frameworks (Rehearse Until Automatic)
 
 ### 1.1 Data Strategy — Start With Failures, Not Acquisition
@@ -53,7 +104,7 @@ The signal that separates senior AI PMs from feature PMs: you begin every data c
 6. Measure marginal model improvement per dollar invested
 
 **Adobe-specific application:**
-At Firefly, this likely means: automated eval (FID/CLIP) catches regressions, but human ELO rating at ship gate reveals the failure modes that metrics miss — things like "this looks generated" or "wrong lighting for the existing composition." Those failure signals point directly to training data gaps.
+At Firefly, this likely means: automated eval using FID (Fréchet Inception Distance) and CLIP Score (Contrastive Language-Image Pre-training Score) catches regressions, but human ELO (pairwise preference ranking) at the ship gate reveals the failure modes that automated metrics miss — things like "this looks generated" or "wrong lighting for the existing composition." Those failure signals point directly to training data gaps.
 
 ---
 
@@ -145,7 +196,7 @@ Directors want to hear this vocabulary:
 Given his background in evaluation science, expect questions framed around proof, not direction.
 
 **Theme 1: How do you know the model actually improved?**
-- Name your eval stack: automated regression (FID/CLIP/DINO), deterministic pixel math for consistency, human preference ELO as ship gate
+- Name your eval stack: automated regression using FID (Fréchet Inception Distance), CLIP Score, and DINO (Self-DIstillation with NO Labels) similarity; deterministic pixel math for style consistency; human preference ELO (pairwise ranking) as the ship gate
 - Talk about statistical significance thresholds before claiming a win
 - Distinguish "metric improved" from "user experience improved"
 
@@ -205,7 +256,7 @@ This is what separates the role from general PM work:
 Adobe's training data moat — licensed Stock, creator-consented, with IP indemnification — is the asymmetric advantage Firefly has over Midjourney, Stable Diffusion derivatives, and even GPT Image 2. Foundations PM is stewarding that moat. Connect your data decisions to this.
 
 **The Evaluation Stack Problem:**
-FID and CLIP score are industry defaults, but both have named failure modes. FID doesn't capture user preference. CLIP score doesn't capture composition quality or lighting coherence. The PM who knows what the metrics miss is more valuable than the one who optimizes the metrics.
+FID (Fréchet Inception Distance) and CLIP Score (Contrastive Language-Image Pre-training) are the industry defaults, but both have named failure modes. FID doesn't capture user preference — it measures distributional realism, not whether a specific image is good. CLIP Score doesn't capture composition quality or lighting coherence. The PM who knows what the metrics miss is more valuable than the one who optimizes the metrics.
 
 **The Flywheel Opportunity:**
 Creative Cloud has hundreds of millions of sessions. Implicit user signals — what users accept, what they re-generate, what they edit heavily — are preference labels at scale. The question for Foundations PM is: how do you build the pipeline to turn those signals into training-quality data?
@@ -300,10 +351,115 @@ These signal strategic maturity and genuine curiosity.
 
 ---
 
+## Part 7 — Metrics to Track as a Data Foundations PM
+
+This is the most important section to rehearse. The director will probe whether you know the difference between "metrics you report" and "metrics that actually tell you if the system is healthy."
+
+Organize your answer across four layers: **Data Health → Model Quality → Business Impact → Operational Efficiency.**
+
+---
+
+### Layer 1 — Data Health Metrics
+
+These tell you whether the raw material going into training is trustworthy.
+
+| Metric | Full Name / Definition | What a Bad Number Tells You |
+|---|---|---|
+| **IAA / Cohen's Kappa** | Inter-Annotator Agreement — measures consistency between human labelers. Kappa < 0.6 = task is too ambiguous | Labeling task definition is broken; labels will train model in wrong direction |
+| **Label Accuracy Rate** | % of labels passing quality audit vs. random sample of ground truth | Labeling vendor or internal workflow is producing noise |
+| **Duplicate Rate** | % of near-duplicate samples in training set (detected via perceptual hashing) | Model will overfit to repeated samples; representation is skewed |
+| **Dataset Coverage Score** | % of target input distribution covered by training data (measured across style, medium, resolution, subject categories) | Model will have uneven quality across input types — excellent on common cases, broken on edges |
+| **Representation Index** | Distribution balance across demographic, cultural, and stylistic dimensions | Bias in model outputs — systematically better for some inputs than others |
+| **Freshness / Staleness Rate** | Age distribution of training data; % of samples older than a defined threshold | Model lags current visual trends and user expectations |
+| **Data Rejection Rate** | % of acquired data filtered out during quality/safety processing | High rejection = acquisition strategy is inefficient or sourcing is misaligned with quality bar |
+| **CSAM Detection Rate** | % of flagged samples in acquisition pipeline before training | Any non-zero pass-through is a critical safety failure — target is zero with 100% detection confidence |
+| **IP Compliance Rate** | % of data verified as licensed, consented, and indemnification-cleared | Legal and reputational risk; potential to invalidate the entire training corpus |
+
+---
+
+### Layer 2 — Model Quality Metrics (Eval Stack)
+
+Three tiers, used at different stages and for different decisions.
+
+**Tier A — Automated Regression Metrics** (fast, run every training iteration)
+
+| Metric | Full Name | Use Case | Threshold Signal |
+|---|---|---|---|
+| **FID** | Fréchet Inception Distance | Overall image realism vs. reference distribution. Lower = better. | FID increase >5 points signals quality regression — stop the run |
+| **CLIP Score** | Contrastive Language-Image Pre-training Score | Text-to-image semantic alignment. Measures whether the image matches the prompt. | Drop >0.02 on held-out prompt set = prompt fidelity regression |
+| **DINO Similarity** | Self-DIstillation with NO Labels — visual feature similarity | Style and structural consistency across a batch; subject identity preservation in multi-image tasks | High variance = model is inconsistent across seeds or style inputs |
+| **Aesthetic Score** | LAION Aesthetic Predictor or equivalent | Predicted human visual appeal score (1–10 scale, model-predicted proxy) | Track trend, not absolute — declining aesthetic score over training iterations signals data quality degradation |
+| **FVD** | Fréchet Video Distance | Video model quality; temporal coherence of generated clips | FVD increase = video model has regressed on motion naturalness |
+| **LPIPS** | Learned Perceptual Image Patch Similarity | Perceptual difference from reference. Lower = more perceptually similar. | Used for tasks where fidelity to source matters (inpainting, style transfer) |
+| **Prompt Following Accuracy** | % of generated outputs correctly depicting all specified subjects, attributes, and spatial relationships from prompt | Drop = model is losing compositional instruction-following ability |
+
+**Tier B — Human Evaluation Metrics** (slower, used at milestone gates)
+
+| Metric | Full Name | Use Case |
+|---|---|---|
+| **ELO Rating** | Elo Rating System (pairwise preference ranking) | Relative ranking of model versions via human pairwise comparison. "Which image is better?" at scale. Used as the ship gate. |
+| **MOS** | Mean Opinion Score | Absolute 1–5 human quality rating. More expensive than ELO but provides an absolute floor check. |
+| **Prompt Adherence Score** | Human-rated accuracy of prompt interpretation | Catches cases where automated CLIP Score passes but humans disagree |
+| **Professional Art Director Sign-Off Rate** | % of outputs a professional would accept without re-editing | The highest-bar quality metric for Creative Pro segment. Not scalable, but essential for segment-specific ship decisions. |
+
+**Tier C — In-Product Behavioral Signals** (implicit preference labels at scale)
+
+| Signal | What It Measures | How to Use It |
+|---|---|---|
+| **Accept Rate** | % of generated outputs accepted without re-generation | High accept rate = model output matches user intent. Low = model is failing the use case. |
+| **Re-generation Rate** | % of outputs where user immediately re-generates | Leading indicator of quality failure before support tickets arrive |
+| **Heavy Edit Rate** | % of outputs where user spends significant time editing post-generation | Measures post-generation friction — high edit time = model missed quality bar even if accepted |
+| **Undo Rate** | % of generated outputs followed by immediate undo | Strongest signal of complete failure — user actively rejected the output |
+| **Session Drop Rate** | % of sessions that end immediately after generation failure | Measures trust erosion — users who give up rather than trying again |
+
+---
+
+### Layer 3 — Business Impact Metrics
+
+These connect data investments to the outcomes directors are accountable for.
+
+| Metric | Definition | Why It Matters to a Director |
+|---|---|---|
+| **Marginal Model Improvement per Dollar** | Model quality gain (FID / ELO improvement) divided by data investment cost | The core ROI metric for every data acquisition and labeling decision |
+| **Model Improvement Velocity** | Rate of quality improvement (e.g., ELO gain per quarter) | Measures whether the data strategy is accelerating or plateauing |
+| **Capability Coverage Rate** | % of product team use cases supported by current model capability | Tracks whether Foundations is keeping pace with product demand |
+| **Model Regression Rate** | % of training runs that result in quality regression vs. prior checkpoint | High regression rate = data pipeline has quality control gaps |
+| **Time-to-Train** | Elapsed time from "data acquisition complete" to "model trained and evaluated" | Measures pipeline efficiency; bottleneck often in labeling, not compute |
+| **Ship Cadence** | Number of improved model checkpoints shipped to product teams per quarter | Operational health of the entire Foundations → Product pipeline |
+| **Product Team Adoption Rate** | % of product teams actively using latest model checkpoint vs. pinned older version | If teams stay on old checkpoints, new model either broke something or wasn't communicated |
+| **Data Investment Attribution** | Measured model quality improvement attributable to a specific dataset intervention | Proves that a specific data acquisition was worth the cost — closes the ROI loop |
+
+---
+
+### Layer 4 — Operational / Pipeline Efficiency Metrics
+
+These track the health of the data infrastructure, not just the data itself.
+
+| Metric | Definition | Target |
+|---|---|---|
+| **Data Pipeline Uptime** | % availability of the end-to-end data processing pipeline | ≥ 99.5% |
+| **Labeling Throughput** | Labeled samples per day across all active labeling workflows | Track against roadmap commitment; declining throughput delays model iterations |
+| **Labeling Turnaround Time** | Elapsed time from data acquisition to labeled, QA-passed, training-ready | SLA target depends on use case; typical: 48–96 hours for batch, 7 days for complex |
+| **Pipeline Latency** | End-to-end time: raw data → processed → training-ready | Measures how quickly new data can influence a training run |
+| **Cost per Labeled Sample** | Total labeling cost (vendor + tooling + QA) divided by labeled samples | Track trend — rising cost per sample signals process inefficiency or task complexity increase |
+| **Queue Depth** | Volume of data waiting for labeling or processing at any point in the pipeline | High queue = bottleneck; risk of data going stale before it ships to training |
+| **Compute Cost per Training Run** | Total GPU-hours × cost rate for a full training iteration | Track against model improvement — cost/improvement ratio is the efficiency metric |
+| **Data Vendor SLA Adherence** | % of vendor deliveries meeting contracted quality and timeline commitments | Below 95% = escalation threshold; persistent misses = vendor replacement conversation |
+
+---
+
+### How to Talk About Metrics in the Interview
+
+**Wrong answer:** "We track FID and CLIP Score."
+
+**Right answer:** "I think about metrics in four layers. Automated metrics like FID and CLIP Score are regression detectors — they catch when something broke, not when something is good. Human ELO and MOS are my ship gates — they tell me whether the model improvement translates to actual user preference. In-product behavioral signals like accept rate and re-generation rate are my leading indicators — they tell me how the model is performing in real use before it shows up in support tickets. And then I track business impact metrics like marginal improvement per dollar and ship cadence to make sure the data investments are actually moving the outcomes the director cares about."
+
+---
+
 ## The One-Paragraph Closing Statement (If Asked "Why This Role")
 
 "I've spent the last few years building at the intersection of data, ML, and product — and the pattern I keep seeing is that model quality problems are almost always data strategy problems in disguise. The Foundations role at Adobe is exactly where that intersection matters most: you're not building features, you're building the capability floor that every product team and every customer depends on. The thing that draws me to this specifically is the evaluation-data-training loop — because getting that closed-loop system right is what separates a team that ships progressively better models from one that ships faster but drifts. I want to be the PM who makes that loop tighter."
 
 ---
 
-*Last updated: June 2026 — Final round prep*
+*Last updated: June 2026 — Added full glossary, metric definitions, and 4-layer metrics framework*
