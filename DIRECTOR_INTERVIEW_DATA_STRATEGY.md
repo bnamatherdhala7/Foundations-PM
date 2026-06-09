@@ -456,10 +456,98 @@ These track the health of the data infrastructure, not just the data itself.
 
 ---
 
+## Part 8 — Competitive Landscape: Image Editing Leaderboard & Adobe's Strategic Position
+
+### 8.1 The Leaderboard (Image Editing, June 2026)
+
+The top models span only 26 ELO points (1,265 to 1,239). That gap is within statistical noise for most comparisons. **The real differentiation is not quality ranking — it's IP position and enterprise viability.**
+
+| # | Model | Provider | ELO | Data Sourcing | Feedback Loop | IP / Indemnity | Collapse Risk |
+|---|---|---|---|---|---|---|---|
+| 1 | GPT Image 1.5 (high) | OpenAI | 1,265 | Proprietary web + ChatGPT behavioral signals at scale. Architecture shifted to autoregressive in 2025. | ~4M+ daily images via ChatGPT. Regenerate + edit signals fed back to training. | **Undisclosed** — no public IP commitment | **High** — consumer skew pushes model toward generic aesthetics |
+| 2 | GPT Image 2 (high) | OpenAI | 1,259 | Rebuilt architecture from scratch. Reasoning model integrated into generation. Training data undisclosed. | Same ChatGPT flywheel as 1.5 but more tightly integrated with reasoning layer. | **Undisclosed** — no public IP commitment | **High** — same structural risk as 1.5, amplified by scale |
+| 3 | Nano Banana Pro | Google (Gemini 3 Pro Image) | 1,251 | Licensed + public domain datasets per Google's disclosure. Built on Gemini 3 Pro reasoning engine. | Google Search + Gemini app usage. SynthID watermarking on all outputs enables provenance tracking. | **Indemnified** — enterprise IP indemnification for training data + outputs | **Medium** — search data skews mainstream; creative edge cases degrade |
+| 4 | Nano Banana 2 | Google (Gemini 3.1 Flash Image) | 1,245 | Same licensed + public domain approach. Faster, lower-cost variant of the Nano Banana family. | Broader consumer reach than Pro; more usage signal but lower quality bar per interaction. | **Indemnified** — covered under same Vertex AI indemnification policy | **Medium** — Flash tier skews toward casual use, less pro signal |
+| 5 | grok-Imagine-Image-quality | xAI | 1,239 | X (Twitter) platform data is xAI's unique asset — real-time social images + text at scale. Training data undisclosed. | xAI docs state generated media is **not** used for training. Feedback loop essentially closed — no signal recycling. | **High risk** — no indemnification commitment disclosed | **Low** — no feedback loop = no collapse risk, but also no flywheel |
+| — | **Adobe Firefly Image** | Adobe | *Not on leaderboard — enterprise focus* | Adobe Stock (licensed, creator-consented). Creator marketplace expanding. Synthetic data for edge cases. | CC sessions untapped — hundreds of millions of sessions = potential flywheel. **Not yet closed.** Biggest gap vs. competitors. | **Strongest moat** — full IP indemnification. Provenance-first sourcing. Creator consent documented. | **Lowest** — Stock diversity + no user behavior collapse risk. Risk increases if CC loop is closed without diversity gates. |
+
+---
+
+### 8.2 Strategic Reading of the Leaderboard
+
+**Key insight 1 — Google is Adobe's closest strategic competitor, not OpenAI.**
+
+Google states Nano Banana is trained on licensed and public domain datasets and offers enterprise IP indemnification for copyright claims on generated outputs. That is the same positioning Adobe uses — **except Google's is policy-based after the fact, while Adobe's is provenance-based from the start.** That distinction is the talking point to own.
+
+- Google's indemnification: "We commit to defend you if someone sues." Coverage is reactive — triggered by a claim.
+- Adobe's indemnification: "The data was licensed and consented before it was used." Coverage is structural — built into the sourcing pipeline.
+
+Say in the interview: *"Google's IP commitment is a legal defense posture. Adobe's is an engineering posture. That's a meaningful difference for enterprise buyers who want to know the risk doesn't exist rather than that it will be covered if it materializes."*
+
+**Key insight 2 — xAI is an interesting data point, not a direct threat.**
+
+xAI documentation states generated media is not used for training — which eliminates their feedback loop collapse risk, but also means they have no flywheel. They're betting entirely on X platform data as their training edge, with no behavioral signal recycling. This is a deliberate architectural choice, not a gap. It means their model quality ceiling is bounded by X data distribution, which skews toward text-heavy, trend-sensitive, consumer content — not professional creative work.
+
+**Key insight 3 — Adobe's absence from this leaderboard is itself a data point, and the director will ask about it.**
+
+Firefly is not benchmarked on consumer image editing leaderboards because it is not positioned as a general-purpose image API. It is embedded in Creative Cloud professional workflows. The eval criteria are fundamentally different:
+
+- Consumer leaderboard ELO: measures prompt-following accuracy on general subjects, aesthetic preference of broad audiences.
+- Firefly's quality bar: would a professional art director accept this for a production campaign? Does it survive 300dpi print? Does it composite correctly with existing layers?
+
+These are different tests. A model optimized for consumer ELO will not necessarily perform well on professional creative tasks, and vice versa.
+
+---
+
+### 8.3 Adobe Competitive Roadmap vs. Google (Gemini)
+
+The question to answer: given that Google has enterprise indemnification, licensed training data, and a strong feedback loop via Search + Gemini app — what should Adobe's roadmap be?
+
+**Adobe's structural advantages that Google cannot replicate:**
+1. **CC workflow integration** — generation is embedded inside Photoshop, Illustrator, Premiere. Google's generation sits outside the professional workflow.
+2. **Provenance-first sourcing** — Adobe's data lineage is built in at acquisition; Google's is asserted after the fact.
+3. **Creator marketplace** — Adobe Stock contributors are active, identifiable, compensatable. Google has no equivalent creator relationship.
+4. **Multi-modal portfolio coherence** — Image, Video, Vector, Audio trained under shared IP and evaluation standards. Google's generative portfolio spans multiple teams with different IP policies.
+
+**Adobe's gaps vs. Google that the roadmap must close:**
+
+| Gap | Current State | Roadmap Action |
+|---|---|---|
+| **Feedback loop not closed** | CC sessions untapped as training signal | Build the in-product pipeline to convert accept/reject/heavy-edit signals into labeled training data. This is the single highest-leverage infrastructure investment. |
+| **Synthetic data at scale** | Limited use of Firefly-generated synthetic data for edge cases | Use Firefly to generate training data for rare professional scenarios: specific illustration styles, multilingual text-in-image, high-resolution print compositing. Benchmark against SynthID's watermarking with Content Credentials. |
+| **No professional creative benchmark** | Firefly is measured internally; no public-facing quality standard | Define and publish a "Creative Professional Benchmark" — quality measured against professional art director judgment, not consumer preference. Reframes the competitive comparison on Adobe's terms. |
+| **API distribution gap** | Firefly API exists but narrower developer reach vs. Vertex AI + Gemini API | Expand Firefly API accessibility for enterprise developers. Google's enterprise moat is partly distribution. |
+| **Edge case coverage** | Long-tail professional inputs (rare styles, languages, resolutions) underrepresented | Use the failure-first data strategy: identify the professional use cases where Firefly underperforms → map to training data gaps → targeted acquisition/synthesis. |
+
+**Roadmap by horizon:**
+
+**Near-term (0–6 months) — Close the Flywheel**
+- Build the CC behavioral signal pipeline: accept rate, re-generation rate, heavy edit rate → labeled preference data
+- Instrument Photoshop Generative Fill and Express generation at the interaction level
+- Define diversity gates before closing the loop — consumer skew is what collapsed OpenAI's quality for edge cases; Adobe must prevent this by ensuring professional use case signals are preserved as the flywheel scales
+- Publish Content Credentials provenance standard as the industry alternative to Google's SynthID — own the IP verification narrative
+
+**Medium-term (6–18 months) — Own the Professional Eval Standard**
+- Launch the Creative Professional Benchmark: a public, reproducible eval suite measuring generation quality against professional creative use cases (print resolution, compositing coherence, style fidelity, multilingual text accuracy)
+- Make this the eval metric that enterprise buyers cite — forces Google to compete on Adobe's terms, not consumer ELO
+- Accelerate creator marketplace data pipeline: more contributors, faster ingestion, better coverage of creative edge cases
+- LoRA-based brand customization at scale: Adobe's equivalent of Google's enterprise fine-tuning, built on creator-consented base models
+
+**Long-term (18+ months) — Multi-Modal Coherence Moat**
+- Close the flywheel fully across Image, Video, Vector, Audio — shared behavioral signal pipeline across the entire Firefly portfolio
+- Multi-modal consistency: a brand's visual identity expressed consistently across generated images, video, vectors, and audio using shared model representations
+- Push Content Credentials as an industry standard (C2PA adoption) — if Adobe's provenance format becomes the verification layer for enterprise AI, it creates a platform lock-in that no competitor can buy their way out of
+- Enterprise custom models: LoRA fine-tuning on customer-provided brand assets, with Adobe's IP indemnification covering the custom layer — something Google's enterprise offering cannot match because Adobe owns the creator relationship
+
+**The one-sentence roadmap answer for the director:**
+*"Adobe's roadmap to compete with Google is: close the CC flywheel before Google closes the Search flywheel, own the professional creative benchmark before the market defaults to consumer ELO, and push Content Credentials as the IP verification standard — because Google's moat is distribution and ours is provenance, and provenance is harder to replicate."*
+
+---
+
 ## The One-Paragraph Closing Statement (If Asked "Why This Role")
 
 "I've spent the last few years building at the intersection of data, ML, and product — and the pattern I keep seeing is that model quality problems are almost always data strategy problems in disguise. The Foundations role at Adobe is exactly where that intersection matters most: you're not building features, you're building the capability floor that every product team and every customer depends on. The thing that draws me to this specifically is the evaluation-data-training loop — because getting that closed-loop system right is what separates a team that ships progressively better models from one that ships faster but drifts. I want to be the PM who makes that loop tighter."
 
 ---
 
-*Last updated: June 2026 — Added full glossary, metric definitions, and 4-layer metrics framework*
+*Last updated: June 2026 — Added leaderboard analysis, Google competitive deep-dive, and Adobe vs. Gemini roadmap*
