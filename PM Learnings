@@ -1,0 +1,69 @@
+These learnings demonstrate how to translate high-level AI product philosophy into practical behaviors for interviewing and day-to-day product execution.
+
+Theme 1: The AI PM Artifact Shift (Evals & Prototyping)
+Traditional PM artifacts (static PRDs, wireframes, linear roadmaps) are fundamentally misaligned with non-deterministic foundational models.
+
+Key Insights from the Conversation
+Evals as the New PRD: You cannot hardcode expected inputs and outputs. Defining "what good looks like" requires building robust evaluation frameworks with clear rubrics for wins and losses.
+
+The 60-20-20 Sweet Spot: Building features that work 100% with today’s model means you’ve aimed too low; building features that completely fail is science fiction. The sweet spot is prototyping where 60% works, 20% is mediocre, and 20% is a reach—allowing your product to automatically ride the wave of upcoming model releases.
+
+Building as a Default Habit: The best AI PMs are hands-on builders who constantly spin up demos, test competing models, maintain personal prompt libraries, and understand the model's "vibes and personality".
+
+💡 Practical Learnings & Actionable Takeaways
+Start Small with "Mini-Evals": Don't wait for complex, automated evaluation pipelines. Begin with ~20 curated prompts to build alignment, establish rubrics, and isolate failure modes quickly.
+
+Prototype at the Edge: When designing new capabilities, intentionally include edge cases that current models struggle with. When the next model tier drops, your product will instantly unlock those capabilities ahead of competitors.
+
+Build a Personal "Vibe Benchmark": Maintain a consistent set of 5–10 multi-step prompts (ranging from simple creative tasks to complex agentic workflows) to run across every new model release to develop immediate intuition for model behavior changes.
+
+Theme 2: Platform Strategy & Multi-Party Prioritization
+Managing a frontier model is a platform challenge: you are building an engine that powers an entire ecosystem of distinct vehicles.
+
+Key Insights from the Conversation
+Capabilities Over Features: When balancing requests from first-party tools (coding harnesses), second-party surfaces (Gmail/YouTube), and third-party enterprise cloud customers, you cannot simply stack-rank individual feature requests. You must prioritize underlying model capabilities (e.g., deep research, structured layout generation) that benefit multiple surfaces.
+
+Symbiotic Feedback Flywheels: Treating core internal surfaces as "hero partners" creates an immediate, high-velocity feedback loop for debugging model losses and testing frontier research.
+
+Agility vs. Stability: Internal surfaces allow for rapid, iterative experimentation, whereas external API tiers require package stability so customer production environments aren't disrupted.
+
+💡 Practical Learnings & Actionable Takeaways
+Abstract the Request: When a stakeholder asks for a specific feature, abstract it to the core model requirement. (e.g., Instead of "add an auto-summary button to Gmail," evaluate the core capability: "improving long-context information extraction").
+
+Dogfood Internally First: Use first-party product surfaces as proving grounds to build conviction and iron out model flaws before locking down API capabilities for enterprise customers.
+
+Focus ROI at the Capability Level: Evaluate roadmap priority by measuring how many downstream surfaces and business verticals a single model capability enhancement will unlock.
+
+Theme 3: Talent Architecture & Interdisciplinary DNA
+The traditional mold of the hyper-specialized computer science PM has evolved into something fluid, curious, and data-driven.
+
+Key Insights from the Conversation
+Diversity of Backgrounds: Successful model teams blend engineering talent with PMs from finance, operations, consulting, and design.
+
+Data Curiosity Over Deep Research: PMs don't need to write model code or be researchers. However, they must possess extreme intellectual curiosity—drilling two or three layers below top-line metrics.
+
+Calibrating to Researcher Mental Models: Earning researcher trust requires high EQ. Some researchers are customer-motivated, while others are vision-driven and need a PM to help navigate execution from point A to point B.
+
+💡 Practical Learnings & Actionable Takeaways
+Drill Below Surface Metrics: Never accept top-line accuracy at face value (e.g., "95% accuracy"). Manually inspect failure cases, parse log distributions, and understand why the 5% failed.
+
+Adapt Your PM Style to Your Tech Lead: Assess whether your research/engineering partners are end-user focused (synthesize user feedback for them) or technology-focused (help operationalize their technical vision into a shipment path).
+
+Leverage Modern Tooling ("PM Twins"): Use AI tools internally for repetitive tasks (dogfood feedback categorization, data analysis, slides) to free up bandwidth for creative product strategy.
+
+Theme 4: Speed, Momentum, and the Psychology of Shipping
+In a fast-moving ecosystem, long annual planning cycles are replaced by continuous cadence and live signal.
+
+Key Insights from the Conversation
+Live Experimentation as QA: Running live experiments with real users provides faster, more reliable signals on model quality than waiting to greenlight static launch checklists across massive surface areas.
+
+Separating Model Ships from Product Moments: Annual events (like developer conferences) serve as great forcing functions for ambitious product bets, but core model updates should ship continuously whenever ready.
+
+Exhausting Joy: The intense pace of frontier AI is balanced by "magic moments"—instances where the model achieves something previously thought impossible.
+
+💡 Practical Learnings & Actionable Takeaways
+Measure Behavioral Shift, Not Just Usage: Look for real user behavior changes in live experiments—longer conversation depth, higher task completion rates, or increased retention—rather than basic clicks.
+
+Decouple Model Upgrades from Marketing Calendars: Don't hold back model improvements for annual events; put them in developer hands immediately to start the user feedback flywheel early.
+
+Sustain Team Velocity: Balance high-ambiguity sprint cycles with deliberate operational pacing to prevent burnout in a "marathon run like a sprint."
