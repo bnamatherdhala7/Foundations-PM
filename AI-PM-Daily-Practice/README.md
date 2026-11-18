@@ -9,7 +9,7 @@ Working folder for the daily practice from the [prep plan](../GOOGLE_AI_PM_INTER
 | `daily-logs/` | One file per day, copied from `TEMPLATE.md` | 1, 2 |
 | `vibe-benchmark.md` | 5-10 prompts rerun on every new model | 1 |
 | `model-notes/` | One "personality" note per model | 1 |
-| `evals/` | 5-20 prompt eval sets with rubrics and scored results | 3 |
+| `evals/` | Eval sets with rubrics and scored results; see `evals/summary.md` | 3 |
 | `product-critiques/` | Short critiques of AI products | 5 |
 | `model-swap-note.md` | How a better model drops in with minimal rework | 4 |
 | `60-20-20-plan.md` | Roadmap split into works / almost works / ambitious | 6 |
@@ -35,8 +35,8 @@ Working folder for the daily practice from the [prep plan](../GOOGLE_AI_PM_INTER
 ## Progress tracker
 
 - [ ] 2 weeks of daily logs
-- [ ] Vibe benchmark run on 2+ models
-- [ ] Opinion notes on Gemini + 2 other models
+- [x] Vibe benchmark run on 2+ models (3 models, 2 tests)
+- [x] Opinion notes on Gemini + 2 other models (`model-notes/`)
 - [ ] One data/failure-mode teardown
 - [ ] One 5-20 prompt eval scored
 - [ ] Model swap note
